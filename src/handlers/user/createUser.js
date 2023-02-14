@@ -1,6 +1,6 @@
 const connectDatabase = require("../../database/dbConn")
-const User = require("../../models/User")
 const bcrypt = require("bcrypt")
+const { checkUsernameEmailIsTaken, saveUser } = require("../../utils/users")
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
@@ -17,24 +17,15 @@ module.exports.handler = async (event, context) => {
     }
 
     // Check for duplicate
-    const duplicate = await User.findOne({
-      $or: [
-        { email: email.toLowerCase() },
-        { username: username.toLowerCase() },
-      ],
+    const duplicateProperty = await checkUsernameEmailIsTaken({
+      username,
+      email,
     })
-      .lean()
-      .exec()
 
-    if (duplicate && duplicate.email === email.toLowerCase()) {
+    if (duplicateProperty === "email" || duplicateProperty === "username") {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: "Duplicate email" }),
-      }
-    } else if (duplicate && duplicate.username === username.toLowerCase()) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: "Duplicate username" }),
+        body: JSON.stringify({ message: `Duplicate ${duplicateProperty}` }),
       }
     }
 
@@ -49,7 +40,7 @@ module.exports.handler = async (event, context) => {
     }
 
     // Create and store new user
-    const user = await User.create(userObject)
+    const user = await saveUser(userObject)
     return {
       statusCode: 201,
       body: JSON.stringify(user),
