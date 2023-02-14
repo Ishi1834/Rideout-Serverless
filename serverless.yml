@@ -1,15 +1,21 @@
 service: serverless
 frameworkVersion: "3"
 
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs18.x
   region: eu-west-2
+  memorySize: 128
+  stage: ${opt:stage, 'dev'}
 
 functions:
-  api:
-    handler: index.handler
+  createUser:
+    handler: src/handlers/user/createUser.handler
     events:
       - httpApi:
-          path: /
-          method: get
+          path: /users
+          method: POST
