@@ -1,7 +1,6 @@
 const isApiGatewayResponse = (response) => {
   const { body, headers, statusCode } = response
 
-  console.log("missing", response)
   if (!body || !headers || !statusCode) {
     return false
   }
