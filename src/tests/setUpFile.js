@@ -1,6 +1,8 @@
 const { MongoMemoryServer } = require("mongodb-memory-server")
 const mongoose = require("mongoose")
 
+mongoose.set("strictQuery", false)
+
 beforeAll(async () => {
   const mongoServer = await MongoMemoryServer.create()
 

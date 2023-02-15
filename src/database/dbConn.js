@@ -4,8 +4,6 @@ let conn = null
 
 const uri = process.env.DATABASE_URI
 
-mongoose.set("strictQuery", false)
-
 module.exports = connectDatabase = async () => {
   if (process.env.NODE_ENV === "test") {
     return
