@@ -1,5 +1,5 @@
-const createUser = require("./createUser")
-const eventGenerator = require("../../tests/utils/eventGenerator")
+const createUser = require("../../handlers/user/createUser")
+const eventGenerator = require("../utils/eventGenerator")
 
 const context = {
   callbackWaitsForEmptyEventLoop: true,

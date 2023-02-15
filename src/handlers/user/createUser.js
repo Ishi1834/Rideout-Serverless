@@ -4,6 +4,7 @@ const {
   checkUsernameEmailIsTaken,
   saveUser,
 } = require("../../utils/database/users")
+const Responses = require("../../utils/apiResponses")
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
@@ -13,10 +14,9 @@ module.exports.handler = async (event, context) => {
     const { username, name, password, email } = JSON.parse(event.body)
 
     if (!username || !password || !name || !email) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: "All fields are required" }),
-      }
+      return Responses._400({
+        message: "All fields are required",
+      })
     }
 
     // Check for duplicate
@@ -26,10 +26,7 @@ module.exports.handler = async (event, context) => {
     })
 
     if (duplicateProperty === "email" || duplicateProperty === "username") {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: `Duplicate ${duplicateProperty}` }),
-      }
+      return Responses._400({ message: `Duplicate ${duplicateProperty}` })
     }
 
     // Hash password
@@ -44,15 +41,9 @@ module.exports.handler = async (event, context) => {
 
     // Create and store new user
     const user = await saveUser(userObject)
-    return {
-      statusCode: 201,
-      body: JSON.stringify(user),
-    }
+    return Responses._201({ user })
   } catch (error) {
     console.log(error)
-    return {
-      statusCode: error.statusCode || 500,
-      body: JSON.stringify({ error: error.message }),
-    }
+    return Responses._500({ error: error?.message })
   }
 }
