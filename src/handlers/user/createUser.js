@@ -5,6 +5,7 @@ const {
   saveUser,
 } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
+const logger = require("../../utils/logger")
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
@@ -43,7 +44,7 @@ module.exports.handler = async (event, context) => {
     const user = await saveUser(userObject)
     return Responses._201({ user })
   } catch (error) {
-    console.log(error)
+    logger(error)
     return Responses._500({ error: error?.message })
   }
 }

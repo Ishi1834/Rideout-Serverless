@@ -4,5 +4,5 @@ module.exports = {
   clearMocks: true,
   setupFilesAfterEnv: ["./src/tests/setUpFile.js"],
   collectCoverage: true,
-  collectCoverageFrom: ["./src/handlers/**"],
+  collectCoverageFrom: ["./src/handlers/**", "./src/utils/**"],
 }
