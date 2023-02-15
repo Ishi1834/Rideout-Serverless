@@ -9,6 +9,10 @@ const context = {
   callbackWaitsForEmptyEventLoop: true,
 }
 
+afterEach(() => {
+  jest.resetAllMocks()
+})
+
 describe("POST /user", () => {
   describe("Return 400 if missing required fields", () => {
     test("Should return 400 if all required fields are undefined", async () => {
@@ -129,6 +133,54 @@ describe("POST /user", () => {
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
       expect(JSON.parse(res.body).message).toBe("Duplicate email")
+    })
+  })
+
+  describe("Return 201 user is added to db", () => {
+    test("should return 201 and user object", async () => {
+      const user = {
+        username: "username",
+        name: "name",
+        password: "password",
+        email: "email",
+      }
+
+      userUtil.saveUser.mockImplementation(() => user)
+
+      const event = eventGenerator({
+        body: user,
+      })
+
+      const res = await createUser.handler(event, context)
+
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(201)
+      expect(JSON.parse(res.body).user).toEqual(user)
+    })
+  })
+
+  describe("Return 500 if there is an error saving user", () => {
+    test("should return 500 and error message", async () => {
+      const user = {
+        username: "username",
+        name: "name",
+        password: "password",
+        email: "email",
+      }
+
+      userUtil.saveUser.mockImplementation(() => {
+        throw new Error("Error saving user")
+      })
+
+      const event = eventGenerator({
+        body: user,
+      })
+
+      const res = await createUser.handler(event, context)
+
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(500)
+      expect(JSON.parse(res.body).error).toEqual("Error saving user")
     })
   })
 })
