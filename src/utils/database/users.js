@@ -1,4 +1,4 @@
-const User = require("../models/User")
+const User = require("../../models/User")
 
 const checkUsernameEmailIsTaken = async ({ username, email }) => {
   const duplicate = await User.findOne({

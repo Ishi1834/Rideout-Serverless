@@ -1,6 +1,9 @@
 const connectDatabase = require("../../database/dbConn")
 const bcrypt = require("bcrypt")
-const { checkUsernameEmailIsTaken, saveUser } = require("../../utils/users")
+const {
+  checkUsernameEmailIsTaken,
+  saveUser,
+} = require("../../utils/database/users")
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
