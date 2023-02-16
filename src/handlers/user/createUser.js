@@ -1,4 +1,4 @@
-const connectDatabase = require("../../database/dbConn")
+const connectDatabase = require("../../config/dbConn")
 const bcrypt = require("bcrypt")
 const {
   checkUsernameEmailIsTaken,
