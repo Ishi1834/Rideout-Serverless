@@ -19,3 +19,9 @@ functions:
       - httpApi:
           path: /users
           method: POST
+  login:
+    handler: src/handlers/auth/login.handler
+    events:
+      - httpApi:
+          path: /auth/login
+          method: POST
