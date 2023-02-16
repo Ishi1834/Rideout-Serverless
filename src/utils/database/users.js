@@ -19,7 +19,13 @@ const saveUser = async (userObject) => {
   return user
 }
 
+const findUser = async (userObject) => {
+  const user = await User.findOne(userObject).lean()
+  return user
+}
+
 module.exports = {
   checkUsernameEmailIsTaken,
   saveUser,
+  findUser,
 }
