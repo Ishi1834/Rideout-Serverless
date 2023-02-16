@@ -1,15 +1,11 @@
-const { MongoMemoryServer } = require("mongodb-memory-server")
 const mongoose = require("mongoose")
 
 mongoose.set("strictQuery", false)
 
 beforeAll(async () => {
-  const mongoServer = await MongoMemoryServer.create()
-
-  await mongoose.connect(mongoServer.getUri())
+  await mongoose.connect(process.env["MONGO_URI"])
 })
 
 afterAll(async () => {
   await mongoose.disconnect()
-  await mongoose.connection.close()
 })
