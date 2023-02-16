@@ -31,14 +31,22 @@ describe("All function that interact with DB work correctly", () => {
 
       expect(duplicate).toBe("username")
     })
+
+    test("Returns null if username and email are not duplicates", async () => {
+      const duplicate = await checkUsernameEmailIsTaken({
+        username: "username",
+        email: "email",
+      })
+
+      expect(duplicate).toBe(null)
+    })
   })
 
-  test("Returns null if username and email are not duplicates", async () => {
-    const duplicate = await checkUsernameEmailIsTaken({
-      username: "username",
-      email: "email",
-    })
+  describe("SaveUser works correctly", () => {
+    test("user saved to DB successfully", async () => {
+      const savedUser = await saveUser(testUser)
 
-    expect(duplicate).toBe(null)
+      expect(savedUser).toMatchObject(testUser)
+    })
   })
 })

@@ -15,7 +15,7 @@ const checkUsernameEmailIsTaken = async ({ username, email }) => {
 }
 
 const saveUser = async (userObject) => {
-  const user = await User.create(userObject).exec()
+  const user = await User.create(userObject)
   return user
 }
 

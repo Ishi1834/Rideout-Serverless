@@ -2,6 +2,8 @@ const { MongoMemoryServer } = require("mongodb-memory-server")
 const mongoose = require("mongoose")
 const config = require("./dbConfig")
 
+mongoose.set("strictQuery", false)
+
 const globalSetup = async () => {
   if (config.Memory) {
     // Config to decided if an mongodb-memory-server instance should be used
