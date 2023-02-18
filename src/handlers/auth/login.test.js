@@ -21,6 +21,24 @@ const existingUser = {
   rides: [],
 }
 
+const existingUserJWTAuthProps = [
+  {
+    userId: existingUser._id,
+    username: existingUser.username,
+    clubs: existingUser.clubs,
+  },
+  "accessTokenSecret",
+  { expiresIn: "15m" },
+]
+
+const existingUserJWTRefreshProps = [
+  {
+    userId: existingUser._id,
+  },
+  "refreshTokenSecret",
+  { expiresIn: "24h" },
+]
+
 afterEach(() => {
   jest.resetAllMocks()
 })
@@ -116,10 +134,13 @@ describe("POST /auth/login", () => {
     })
   })
 
-  describe("Should return 200 if correct details are given", () => {
+  describe("Return 200 if correct details are given", () => {
     test("Should return authToken, refreshToken and 200", async () => {
       userUtil.findUser.mockImplementation(() => existingUser)
       bcrypt.compare.mockImplementation(() => true)
+      jwt.sign
+        .mockImplementationOnce(() => "authToken")
+        .mockImplementationOnce(() => "refreshToken")
 
       const event = eventGenerator({
         body: {
@@ -135,11 +156,50 @@ describe("POST /auth/login", () => {
         "password",
         existingUser.password
       )
-      expect(jwt.sign).toHaveBeenCalledWith("sa")
+      expect(jwt.sign).toHaveBeenCalledTimes(2)
+      expect(jwt.sign).toHaveBeenNthCalledWith(
+        1,
+        existingUserJWTAuthProps[0],
+        existingUserJWTAuthProps[1],
+        existingUserJWTAuthProps[2]
+      )
+      expect(jwt.sign).toHaveBeenNthCalledWith(
+        2,
+        existingUserJWTRefreshProps[0],
+        existingUserJWTRefreshProps[1],
+        existingUserJWTRefreshProps[2]
+      )
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
-      expect(JSON.parse(res.body)).toBe({ jj: "buy" })
+      expect(JSON.parse(res.body)).toEqual({
+        authenticated: true,
+        userId: existingUser._id,
+        authToken: "authToken",
+        refreshToken: "refreshToken",
+      })
+    })
+  })
+
+  describe("Return 500 if there is an error findingUser", () => {
+    test("should reutrn 500 and error message", async () => {
+      userUtil.findUser.mockImplementation(() => {
+        throw new Error("Error getting user")
+      })
+
+      const event = eventGenerator({
+        body: {
+          username: "username",
+          password: "password",
+        },
+      })
+
+      const res = await login.handler(event, context)
+
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(500)
+      expect(JSON.parse(res.body).error).toEqual("Error getting user")
     })
   })
 })
