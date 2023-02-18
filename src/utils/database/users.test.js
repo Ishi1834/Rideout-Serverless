@@ -1,4 +1,9 @@
-const { checkUsernameEmailIsTaken, saveUser, findUser } = require("./users")
+const {
+  checkUsernameEmailIsTaken,
+  saveUser,
+  findUser,
+  findUserById,
+} = require("./users")
 const User = require("../../models/User")
 
 const testUser = {
@@ -61,6 +66,22 @@ describe("All function that interact with DB work correctly", () => {
 
     test("null is returned if user doesn't in DB", async () => {
       const user = await findUser({ username: testUser.username })
+
+      expect(user).toBe(null)
+    })
+  })
+
+  describe("FindUserById works correctly", () => {
+    test("user is returned if user exists in DB", async () => {
+      const { _id } = await User.create(testUser)
+
+      const user = await findUserById(_id.toString())
+
+      expect(user).toMatchObject(testUser)
+    })
+
+    test("null is returned if user doesn't in DB", async () => {
+      const user = await findUserById("randomstring")
 
       expect(user).toBe(null)
     })

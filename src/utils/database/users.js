@@ -24,8 +24,14 @@ const findUser = async (userObject) => {
   return user
 }
 
+const findUserById = async (userId) => {
+  const user = await User.findById(userId)
+  return user
+}
+
 module.exports = {
   checkUsernameEmailIsTaken,
   saveUser,
   findUser,
+  findUserById,
 }
