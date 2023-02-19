@@ -25,3 +25,9 @@ functions:
       - httpApi:
           path: /auth/login
           method: POST
+  refresh:
+    handler: src/handlers/auth/refresh.handler
+    events:
+      - httpApi:
+          path: /auth/refresh
+          method: POST
