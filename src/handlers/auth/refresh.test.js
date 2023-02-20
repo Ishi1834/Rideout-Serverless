@@ -5,6 +5,12 @@ const userUtil = require("../../utils/database/users")
 const jwt = require("jsonwebtoken")
 
 jest.mock("jsonwebtoken")
+jest.mock("../../utils/database/users")
+
+function TestError(name, message) {
+  this.message = message || ""
+  this.name = name
+}
 
 const context = {
   callbackWaitsForEmptyEventLoop: true,
@@ -46,9 +52,7 @@ describe("POST /auth/refresh", () => {
   describe("Return 401 if invalid refreshToken is given", () => {
     test("Should return 401 if JWT verify is returns an error", async () => {
       jwt.verify.mockImplementation(() => {
-        return new Error({
-          name: "JsonWebTokenError",
-        })
+        throw new TestError("JsonWebTokenError")
       })
 
       const event = eventGenerator({
@@ -58,7 +62,7 @@ describe("POST /auth/refresh", () => {
       })
 
       const res = await refresh.handler(event, context)
-
+      console.log("res ", res)
       // mock
       expect(jwt.verify).toHaveBeenCalledWith(
         "invalidToken",
@@ -70,6 +74,32 @@ describe("POST /auth/refresh", () => {
       expect(JSON.parse(res.body).message).toBe("Invalid refreshToken")
     })
 
-    //test("Should return 401 if userId from JWT verify no longer exists", async () => {})
+    test("Should return 401 if userId from JWT verify no longer exists", async () => {
+      jwt.verify.mockImplementation(() => {
+        return {
+          userId: "1234567891112",
+        }
+      })
+      userUtil.findUserById.mockImplementation(() => null)
+
+      const event = eventGenerator({
+        body: {
+          refreshToken: "validToken",
+        },
+      })
+
+      const res = await refresh.handler(event, context)
+
+      // mock
+      expect(jwt.verify).toHaveBeenCalledWith(
+        "validToken",
+        "refreshTokenSecret"
+      )
+      expect(userUtil.findUserById).toHaveBeenCalledWith("1234567891112")
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(401)
+      expect(JSON.parse(res.body).message).toBe("Invalid token user")
+    })
   })
 })

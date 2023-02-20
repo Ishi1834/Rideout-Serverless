@@ -25,7 +25,7 @@ module.exports.handler = async (event, context) => {
 
     const user = await findUserById(userId)
     if (!user) {
-      return Responses._401({ message: "Invalid refreshToken" })
+      return Responses._401({ message: "Invalid token user" })
     }
 
     const authToken = jwt.sign(
