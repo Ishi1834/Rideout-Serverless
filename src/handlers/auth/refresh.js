@@ -53,7 +53,6 @@ module.exports.handler = async (event, context) => {
     })
   } catch (error) {
     if (error.name === "JsonWebTokenError") {
-      console.log(error)
       return Responses._401({ message: "Invalid refreshToken" })
     }
     logger(error)

@@ -44,7 +44,13 @@ describe("POST /auth/refresh", () => {
   })
 
   describe("Return 401 if invalid refreshToken is given", () => {
-    test("Should return 401 if refreshToken is malformed", async () => {
+    test("Should return 401 if JWT verify is returns an error", async () => {
+      jwt.verify.mockImplementation(() => {
+        return new Error({
+          name: "JsonWebTokenError",
+        })
+      })
+
       const event = eventGenerator({
         body: {
           refreshToken: "invalidToken",
@@ -53,11 +59,17 @@ describe("POST /auth/refresh", () => {
 
       const res = await refresh.handler(event, context)
 
+      // mock
+      expect(jwt.verify).toHaveBeenCalledWith(
+        "invalidToken",
+        "refreshTokenSecret"
+      )
+      // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(401)
       expect(JSON.parse(res.body).message).toBe("Invalid refreshToken")
     })
 
-    //test("Should return 401 if refreshToken has expired", async () => {})
+    //test("Should return 401 if userId from JWT verify no longer exists", async () => {})
   })
 })
