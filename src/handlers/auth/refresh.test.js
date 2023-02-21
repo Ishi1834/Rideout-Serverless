@@ -88,7 +88,7 @@ describe("POST /auth/refresh", () => {
       })
 
       const res = await refresh.handler(event, context)
-      console.log("res ", res)
+
       // mock
       expect(jwt.verify).toHaveBeenCalledWith(
         "invalidToken",
