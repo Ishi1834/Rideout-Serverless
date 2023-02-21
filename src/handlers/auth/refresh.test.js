@@ -16,6 +16,32 @@ const context = {
   callbackWaitsForEmptyEventLoop: true,
 }
 
+const existingUser = {
+  _id: "9834832903190321",
+  username: "username",
+  password: "password",
+  clubs: [],
+  rides: [],
+}
+
+const existingUserJWTAuthProps = [
+  {
+    userId: existingUser._id,
+    username: existingUser.username,
+    clubs: existingUser.clubs,
+  },
+  "accessTokenSecret",
+  { expiresIn: "15m" },
+]
+
+const existingUserJWTRefreshProps = [
+  {
+    userId: existingUser._id,
+  },
+  "refreshTokenSecret",
+  { expiresIn: "24h" },
+]
+
 afterEach(() => {
   jest.resetAllMocks()
 })
@@ -77,7 +103,7 @@ describe("POST /auth/refresh", () => {
     test("Should return 401 if userId from JWT verify no longer exists", async () => {
       jwt.verify.mockImplementation(() => {
         return {
-          userId: "1234567891112",
+          userId: existingUser._id,
         }
       })
       userUtil.findUserById.mockImplementation(() => null)
@@ -95,11 +121,88 @@ describe("POST /auth/refresh", () => {
         "validToken",
         "refreshTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith("1234567891112")
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(401)
       expect(JSON.parse(res.body).message).toBe("Invalid token user")
+    })
+  })
+
+  describe("Return 200 if correct details are given", () => {
+    test("Should return authToken, refreshToken and 200", async () => {
+      jwt.verify.mockImplementation(() => {
+        return {
+          userId: existingUser._id,
+        }
+      })
+      userUtil.findUserById.mockImplementation(() => existingUser)
+      jwt.sign
+        .mockImplementationOnce(() => "authToken")
+        .mockImplementationOnce(() => "refreshToken")
+
+      const event = eventGenerator({
+        body: {
+          refreshToken: "validToken",
+        },
+      })
+
+      const res = await refresh.handler(event, context)
+
+      // mock
+      expect(jwt.verify).toHaveBeenCalledWith(
+        "validToken",
+        "refreshTokenSecret"
+      )
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(jwt.sign).toHaveBeenCalledTimes(2)
+      expect(jwt.sign).toHaveBeenNthCalledWith(1, ...existingUserJWTAuthProps)
+      expect(jwt.sign).toHaveBeenNthCalledWith(
+        2,
+        ...existingUserJWTRefreshProps
+      )
+      //
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(200)
+      expect(JSON.parse(res.body)).toEqual({
+        userId: existingUser._id,
+        authToken: "authToken",
+        refreshToken: "refreshToken",
+      })
+    })
+  })
+
+  describe("Return 500 if there is an error findUserById", () => {
+    test("Should return 500 if userId and error message", async () => {
+      jwt.verify.mockImplementation(() => {
+        return {
+          userId: existingUser._id,
+        }
+      })
+      userUtil.findUserById.mockImplementation(() => {
+        throw new Error("Error getting user")
+      })
+
+      const event = eventGenerator({
+        body: {
+          refreshToken: "validToken",
+        },
+      })
+
+      const res = await refresh.handler(event, context)
+
+      // mock
+      expect(jwt.verify).toHaveBeenCalledWith(
+        "validToken",
+        "refreshTokenSecret"
+      )
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(500)
+      expect(JSON.parse(res.body).error).toBe("Error getting user")
     })
   })
 })
