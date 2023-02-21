@@ -31,3 +31,9 @@ functions:
       - httpApi:
           path: /auth/refresh
           method: POST
+  sendVerificationEmail:
+    handler: src/handlers/account/sendVerificationEmail.handler
+    events:
+      - httpApi:
+          path: /account/verification
+          method: POST
