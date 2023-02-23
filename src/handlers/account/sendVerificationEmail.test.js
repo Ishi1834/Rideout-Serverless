@@ -2,20 +2,9 @@ const sendVerificationEmail = require("./sendVerificationEmail")
 const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
+const { context, existingUser } = require("../../tests/staticData")
 
 jest.mock("../../utils/database/users")
-
-const context = {
-  callbackWaitsForEmptyEventLoop: true,
-}
-
-const existingUser = {
-  _id: "9834832903190321",
-  username: "username",
-  password: "password",
-  clubs: [],
-  rides: [],
-}
 
 describe("POST /account/verification", () => {
   describe("Return 400 if missing required fields", () => {

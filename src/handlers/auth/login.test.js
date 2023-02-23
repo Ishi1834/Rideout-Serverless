@@ -4,40 +4,16 @@ const validators = require("../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const {
+  existingUser,
+  existingUserJWTAuthProps,
+  existingUserJWTRefreshProps,
+  context,
+} = require("../../tests/staticData")
 
 jest.mock("../../utils/database/users")
 jest.mock("bcrypt")
 jest.mock("jsonwebtoken")
-
-const context = {
-  callbackWaitsForEmptyEventLoop: true,
-}
-
-const existingUser = {
-  _id: "9834832903190321",
-  username: "username",
-  password: "password",
-  clubs: [],
-  rides: [],
-}
-
-const existingUserJWTAuthProps = [
-  {
-    userId: existingUser._id,
-    username: existingUser.username,
-    clubs: existingUser.clubs,
-  },
-  "accessTokenSecret",
-  { expiresIn: "15m" },
-]
-
-const existingUserJWTRefreshProps = [
-  {
-    userId: existingUser._id,
-  },
-  "refreshTokenSecret",
-  { expiresIn: "24h" },
-]
 
 afterEach(() => {
   jest.resetAllMocks()

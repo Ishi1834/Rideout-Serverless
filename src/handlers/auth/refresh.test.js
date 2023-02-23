@@ -3,6 +3,12 @@ const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
 const jwt = require("jsonwebtoken")
+const {
+  context,
+  existingUser,
+  existingUserJWTAuthProps,
+  existingUserJWTRefreshProps,
+} = require("../../tests/staticData")
 
 jest.mock("jsonwebtoken")
 jest.mock("../../utils/database/users")
@@ -11,36 +17,6 @@ function TestError(name, message) {
   this.message = message || ""
   this.name = name
 }
-
-const context = {
-  callbackWaitsForEmptyEventLoop: true,
-}
-
-const existingUser = {
-  _id: "9834832903190321",
-  username: "username",
-  password: "password",
-  clubs: [],
-  rides: [],
-}
-
-const existingUserJWTAuthProps = [
-  {
-    userId: existingUser._id,
-    username: existingUser.username,
-    clubs: existingUser.clubs,
-  },
-  "accessTokenSecret",
-  { expiresIn: "15m" },
-]
-
-const existingUserJWTRefreshProps = [
-  {
-    userId: existingUser._id,
-  },
-  "refreshTokenSecret",
-  { expiresIn: "24h" },
-]
 
 afterEach(() => {
   jest.resetAllMocks()
