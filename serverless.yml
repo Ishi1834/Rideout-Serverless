@@ -13,12 +13,14 @@ provider:
   stage: ${opt:stage, 'dev'}
 
 functions:
+  # /users
   createUser:
     handler: src/handlers/user/createUser.handler
     events:
       - httpApi:
           path: /users
           method: POST
+  # /auth
   login:
     handler: src/handlers/auth/login.handler
     events:
@@ -31,9 +33,16 @@ functions:
       - httpApi:
           path: /auth/refresh
           method: POST
+  # /account
   sendVerificationEmail:
     handler: src/handlers/account/sendVerificationEmail.handler
     events:
       - httpApi:
           path: /account/verification
           method: POST
+  verifyEmailToken:
+    handler: src/handlers/account/verifyEmailToken.handler
+    events:
+      - httpApi:
+          path: /account/verification/{verificationToken}
+          method: GET
