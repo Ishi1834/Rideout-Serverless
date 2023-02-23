@@ -10,7 +10,7 @@ module.exports.handler = async (event, context) => {
 
   try {
     await connectDatabase()
-    const { verificationToken } = JSON.parse(event.pathParameter)
+    const { verificationToken } = event.pathParameters
 
     if (!verificationToken) {
       return Responses._400({
@@ -22,9 +22,9 @@ module.exports.handler = async (event, context) => {
 
     const user = await findUserById(userId)
     if (!user) {
-      return Responses._400({ message: "Invalid userId" })
+      return Responses._401({ message: "Invalid userId" })
     } else if (user.emailVerified) {
-      return Responses._400({ message: "Email verified" })
+      return Responses._401({ message: "Email verified" })
     }
 
     user.emailVerified = true
@@ -32,6 +32,9 @@ module.exports.handler = async (event, context) => {
 
     return Responses._200({ message: "Email verified" })
   } catch (error) {
+    if (error.name === "JsonWebTokenError") {
+      return Responses._401({ message: "Invalid verificationToken" })
+    }
     logger(error)
     return Responses._500({ error: error?.message })
   }
