@@ -118,4 +118,76 @@ describe("GET /account/verification/:verificationToken", () => {
       expect(JSON.parse(res.body).message).toBe("Email verified")
     })
   })
+
+  describe("Return 200 if correct details are given", () => {
+    test("Should return 200 if verificationToken is valid, and user hasn't already verified", async () => {
+      const testUser = {
+        ...existingUser,
+        emailVerified: false,
+        save: () => true,
+      }
+      jwt.verify.mockImplementation(() => {
+        return {
+          userId: existingUser._id,
+        }
+      })
+      userUtil.findUserById.mockImplementation(() => testUser)
+
+      const event = eventGenerator({
+        pathParametersObject: {
+          verificationToken: "validRefreshToken",
+        },
+      })
+
+      const res = await verifyEmailToken.handler(event, context)
+
+      // mock
+      expect(jwt.verify).toHaveBeenCalledWith(
+        "validRefreshToken",
+        "verificationTokenSecret"
+      )
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(200)
+      expect(JSON.parse(res.body).message).toBe("Email verified")
+    })
+  })
+
+  describe("Return 500 if there is an error with database", () => {
+    test("Should return 500 if there is an error saving user", async () => {
+      const testUser = {
+        ...existingUser,
+        emailVerified: false,
+        save: () => {
+          throw new Error("Error saving changes")
+        },
+      }
+      jwt.verify.mockImplementation(() => {
+        return {
+          userId: existingUser._id,
+        }
+      })
+      userUtil.findUserById.mockImplementation(() => testUser)
+
+      const event = eventGenerator({
+        pathParametersObject: {
+          verificationToken: "validRefreshToken",
+        },
+      })
+
+      const res = await verifyEmailToken.handler(event, context)
+
+      // mock
+      expect(jwt.verify).toHaveBeenCalledWith(
+        "validRefreshToken",
+        "verificationTokenSecret"
+      )
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(500)
+      expect(JSON.parse(res.body).error).toBe("Error saving changes")
+    })
+  })
 })
