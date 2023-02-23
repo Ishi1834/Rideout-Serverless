@@ -5,6 +5,7 @@ const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
 const jwt = require("jsonwebtoken")
 const sendEmail = require("../../utils/sendEmail")
+const { generateVerificationContent } = require("../../utils/emailContent")
 
 module.exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false
@@ -34,11 +35,12 @@ module.exports.handler = async (event, context) => {
     )
     const verificationURL = `https://${host}/account/verification/${verificationToken}`
 
-    await sendEmail(
+    const resE = await sendEmail(
       user.email,
       "Confirm your email",
       generateVerificationContent(user.name, verificationURL)
     )
+    console.log("res ", resE)
 
     return Responses._200({ message: "Email has been sent" })
   } catch (error) {
