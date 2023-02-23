@@ -35,12 +35,11 @@ module.exports.handler = async (event, context) => {
     )
     const verificationURL = `https://${host}/account/verification/${verificationToken}`
 
-    const resE = await sendEmail(
+    await sendEmail(
       user.email,
       "Confirm your email",
       generateVerificationContent(user.name, verificationURL)
     )
-    console.log("res ", resE)
 
     return Responses._200({ message: "Email has been sent" })
   } catch (error) {
