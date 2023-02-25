@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt")
 const { findUser } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
+const sendEmail = require("../../utils/sendEmail")
 const generator = require("generate-password")
 const { generatePasswordResetContent } = require("../../utils/emailContent")
 
@@ -21,7 +22,7 @@ module.exports.handler = async (event, context) => {
 
     const user = await findUser({ username })
     if (!user) {
-      return Responses._401({ message: "Invalid username" })
+      return Responses._400({ message: "Invalid username" })
     }
 
     const temporaryPassword = generator.generate({
@@ -42,10 +43,7 @@ module.exports.handler = async (event, context) => {
     )
 
     return Responses._200({
-      authenticated: true,
-      userId: user._id,
-      authToken: authToken,
-      refreshToken: refreshToken,
+      message: "Email sent",
     })
   } catch (error) {
     logger(error)
