@@ -26,4 +26,28 @@ const generateVerificationContent = (name, verificationURL) => {
   `
 }
 
-module.exports = { generateVerificationContent }
+const generatePasswordResetContent = (name, temporaryPassword) => {
+  return `Dear ${name},
+
+  We have received your request to reset your password. To change your password, please use the following temporary passcode: ${temporaryPassword}.
+  
+  To change your password, please follow these steps:
+  
+  1. Log into the app using the temporary passcode.
+  2. Once you are logged in, navigate to the 'Profile' section.
+  3. Select the option to 'Change Password'.
+  4. Enter your temporary password and new password.
+  5. Click 'Submit' to complete the process.
+  
+  If you have any difficulties, please don't hesitate to reach out to our support team for assistance.
+  
+  Thank you for using our app.
+  
+  Best regards,
+  
+  The RideOut Team
+  
+  `
+}
+
+module.exports = { generateVerificationContent, generatePasswordResetContent }

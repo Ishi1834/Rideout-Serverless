@@ -46,3 +46,9 @@ functions:
       - httpApi:
           path: /account/verification/{verificationToken}
           method: GET
+  resetPassword:
+    handler: src/handlers/account/resetPassword.handler
+    events:
+      - httpApi:
+          path: /account/resetPassword
+          method: POST
