@@ -22,8 +22,11 @@ module.exports.handler = async (event, context) => {
       userClubs: decoded.clubs,
     }
   } catch (error) {
-    logger(error)
     context.end()
+    if (error.name === "JsonWebTokenError") {
+      return Responses._401({ message: "Invalid authToken" })
+    }
+    logger(error)
     return Responses._500({ error: error?.message })
   }
 }

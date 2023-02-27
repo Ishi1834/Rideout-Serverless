@@ -1,5 +1,6 @@
 const APIGatewayRequest = ({
   body,
+  headers,
   method,
   path = "",
   queryStringObject,
@@ -8,9 +9,11 @@ const APIGatewayRequest = ({
 }) => {
   const request = {
     body: body ? JSON.stringify(body) : null,
-    headers: {
-      host: "localhost:3000",
-    },
+    headers: headers
+      ? { ...headers, host: "localhost:3000" }
+      : {
+          host: "localhost:3000",
+        },
     multiValueHeaders: {},
     httpMethod: method,
     isBase64Encoded: false,
