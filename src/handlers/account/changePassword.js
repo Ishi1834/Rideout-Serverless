@@ -12,7 +12,7 @@ module.exports.handler = async (event, context) => {
     const { userId } = context.prev
     const { password, newPassword } = JSON.parse(event.body)
 
-    if (!password || newPassword) {
+    if (!password || !newPassword) {
       return Responses._400({
         message: "All fields are required",
       })
