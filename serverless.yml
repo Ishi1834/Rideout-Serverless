@@ -53,3 +53,12 @@ functions:
       - httpApi:
           path: /account/resetPassword
           method: POST
+  changePassword:
+    middleware:
+      pre:
+        - src/handlers/auth/authenticate.handler
+    handler: src/handlers/account/changePassword.handler
+    events:
+      - httpApi:
+          path: /account/changePassword
+          method: POST
