@@ -30,13 +30,3 @@ module.exports.handler = async (event, context) => {
     return Responses._500({ error: error?.message })
   }
 }
-
-/**
- * if below is done, then the object will be in context.prev for the next handler
- * return {
-      userId: "decoded.userId",
-      userClubs: "decoded.clubs",
-    }
-    
-    if context.end() is called this will terminate the flow and return the next return statement
- */
