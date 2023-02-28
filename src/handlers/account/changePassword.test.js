@@ -20,11 +20,6 @@ const context = {
   },
 }
 
-function TestError(name, message) {
-  this.message = message || ""
-  this.name = name
-}
-
 afterEach(() => {
   jest.resetAllMocks()
 })
@@ -99,7 +94,7 @@ describe("POST /account/changePassword", () => {
       bcrypt.compare.mockImplementation(() => false)
       const event = eventGenerator({
         body: {
-          password: "password",
+          password: "incorrectPassword",
           newPassword: "newPassword",
         },
       })
@@ -109,7 +104,7 @@ describe("POST /account/changePassword", () => {
       // mock
       expect(userUtil.findUserById).toHaveBeenCalledWith(context.prev.userId)
       expect(bcrypt.compare).toHaveBeenCalledWith(
-        "password",
+        "incorrectPassword",
         existingUser.password
       )
       // response
@@ -121,7 +116,11 @@ describe("POST /account/changePassword", () => {
 
   describe("Return 200 if valid password is given", () => {
     test("Should return 200 and update password if valid current password is given", async () => {
-      userUtil.findUserById.mockImplementation(() => existingUser)
+      const testUser = {
+        ...existingUser,
+        save: jest.fn(),
+      }
+      userUtil.findUserById.mockImplementation(() => testUser)
       bcrypt.compare.mockImplementation(() => true)
       bcrypt.hash.mockImplementation(() => "hashedNewPassword")
 
@@ -141,10 +140,35 @@ describe("POST /account/changePassword", () => {
         existingUser.password
       )
       expect(bcrypt.hash).toHaveBeenCalledWith("newPassword", 10)
+      expect(testUser.save).toHaveBeenCalledTimes(1)
+      expect(testUser.password).toBe("hashedNewPassword")
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(401)
-      expect(JSON.parse(res.body).message).toBe("Invalid password")
+      expect(res.statusCode).toBe(200)
+      expect(JSON.parse(res.body).message).toBe("Password changed")
+    })
+  })
+
+  describe("Return 500 if there is an error", () => {
+    test("Should return 500 if there is an error in findUserById", async () => {
+      userUtil.findUserById.mockImplementation(() => {
+        throw new Error("Error getting user")
+      })
+      const event = eventGenerator({
+        body: {
+          password: "password",
+          newPassword: "newPassword",
+        },
+      })
+
+      const res = await changePassword.handler(event, context)
+
+      // mock
+      expect(userUtil.findUserById).toHaveBeenCalledWith(context.prev.userId)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(500)
+      expect(JSON.parse(res.body).error).toBe("Error getting user")
     })
   })
 })
