@@ -62,3 +62,13 @@ functions:
       - httpApi:
           path: /account/changePassword
           method: POST
+  # /clubs
+  createClub:
+    middleware:
+      pre:
+        - src/handlers/auth/authenticate.handler
+    handler: src/handlers/club/createClub.handler
+    events:
+      - httpApi:
+          path: /clubs
+          method: POST
