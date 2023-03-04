@@ -39,7 +39,6 @@ const userSchema = new mongoose.Schema({
   ],
   clubs: [
     {
-      name: String,
       authorization: {
         type: String,
         enum: ["user", "editor", "admin"],
