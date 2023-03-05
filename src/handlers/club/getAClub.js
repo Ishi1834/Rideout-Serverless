@@ -21,9 +21,7 @@ module.exports.handler = async (event, context) => {
       return Responses._400({ message: "Invalid club" })
     }
 
-    return Responses._200({
-      club,
-    })
+    return Responses._200(club)
   } catch (error) {
     logger(error)
     return Responses._500({ error: error?.message })
