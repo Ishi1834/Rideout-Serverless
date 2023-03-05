@@ -1,6 +1,6 @@
-const { accessTokenSecret } = require("../../config/secretHandler")
-const Responses = require("../../utils/apiResponses")
-const logger = require("../../utils/logger")
+const { accessTokenSecret } = require("../config/secretHandler")
+const Responses = require("../utils/apiResponses")
+const logger = require("../utils/logger")
 const jwt = require("jsonwebtoken")
 
 module.exports.handler = async (event, context) => {
