@@ -37,9 +37,15 @@ module.exports.handler = async (event, context) => {
       },
       city,
       members: [
-        { userName: user.username, userId: user._id, authorization: "admin" },
+        { username: user.username, userId: user._id, authorization: "admin" },
       ],
     })
+
+    user.clubs.push({
+      authorization: "admin",
+      clubId: club._id,
+    })
+    await user.save()
 
     return Responses._201({
       message: "Club created",

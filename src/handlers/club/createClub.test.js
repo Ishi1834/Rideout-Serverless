@@ -2,9 +2,15 @@ const createClub = require("./createClub")
 const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
-const { existingUser, context: contextBase } = require("../../tests/staticData")
+const clubUtil = require("../../utils/database/clubs")
+const {
+  existingUser,
+  existingClub,
+  context: contextBase,
+} = require("../../tests/staticData")
 
 jest.mock("../../utils/database/users")
+jest.mock("../../utils/database/clubs")
 
 const context = {
   ...contextBase,
@@ -98,6 +104,82 @@ describe("POST /clubs", () => {
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
       expect(JSON.parse(res.body).message).toBe("Invalid user")
+    })
+  })
+
+  describe("Return 200 if valid request is made", () => {
+    test("Should return 200 and club object if club is created successfully", async () => {
+      const testUser = { ...existingUser, save: jest.fn() }
+      const testClub = { ...existingClub, members: [] }
+      userUtil.findUserById.mockImplementation(() => testUser)
+      clubUtil.createClub.mockImplementation(() => existingClub)
+
+      const event = eventGenerator({
+        body: {
+          name: existingClub.name,
+          location: existingClub.location.coordinates,
+          city: existingClub.city,
+        },
+      })
+
+      const res = await createClub.handler(event, context)
+
+      // mock
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(clubUtil.createClub).toHaveBeenCalledWith({
+        name: testClub.name,
+        location: {
+          type: "Point",
+          coordinates: testClub.location.coordinates,
+        },
+        city: testClub.city,
+        members: [
+          {
+            username: testUser.username,
+            userId: testUser._id,
+            authorization: "admin",
+          },
+        ],
+      })
+      expect(testUser.clubs).toEqual([
+        {
+          authorization: "admin",
+          clubId: testClub._id,
+        },
+      ])
+      expect(testUser.save).toHaveBeenCalledTimes(1)
+      // response
+      console.log("club", existingClub)
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(201)
+      expect(JSON.parse(res.body)).toEqual({
+        message: "Club created",
+        club: existingClub,
+      })
+    })
+  })
+
+  describe("Return 500 if there is an error creating club", () => {
+    test("Should return 500 and error message", async () => {
+      userUtil.findUserById.mockImplementation(() => {
+        throw new Error("Error finding user")
+      })
+      const event = eventGenerator({
+        body: {
+          name: "Cycling club",
+          location: [60, 60],
+          city: "London",
+        },
+      })
+
+      const res = await createClub.handler(event, context)
+
+      // mock
+      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(500)
+      expect(JSON.parse(res.body).error).toBe("Error finding user")
     })
   })
 })

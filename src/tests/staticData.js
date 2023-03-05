@@ -14,6 +14,23 @@ const existingUser = {
   rides: [],
 }
 
+const existingClub = {
+  _id: "23f75719297c7sd30cadbe98",
+  name: "name",
+  location: {
+    type: "Point",
+    coordinates: [50, 50],
+  },
+  city: "city",
+  members: [
+    {
+      username: existingUser.username,
+      userId: existingUser._id,
+      authorization: "admin",
+    },
+  ],
+}
+
 const existingUserJWTAuthProps = [
   {
     userId: existingUser._id,
@@ -35,6 +52,7 @@ const existingUserJWTRefreshProps = [
 module.exports = {
   context,
   existingUser,
+  existingClub,
   existingUserJWTAuthProps,
   existingUserJWTRefreshProps,
   nonExistingUserId,
