@@ -15,8 +15,8 @@ provider:
 
 functions:
   # /users
-  createUser:
-    handler: src/handlers/user/createUser.handler
+  createAUser:
+    handler: src/handlers/user/createAUser.handler
     events:
       - httpApi:
           path: /users
@@ -63,20 +63,20 @@ functions:
           path: /account/changePassword
           method: POST
   # /clubs
-  createClub:
+  createAClub:
     middleware:
       pre:
         - src/handlers/auth/authenticate.handler
-    handler: src/handlers/club/createClub.handler
+    handler: src/handlers/club/createAClub.handler
     events:
       - httpApi:
           path: /clubs
           method: POST
-  getClub:
+  getAClub:
     middleware:
       pre:
         - src/handlers/auth/authenticate.handler
-    handler: src/handlers/club/getClub.handler
+    handler: src/handlers/club/getAClub.handler
     events:
       - httpApi:
           path: /clubs/{clubId}

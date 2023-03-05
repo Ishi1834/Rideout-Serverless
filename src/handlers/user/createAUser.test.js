@@ -1,4 +1,4 @@
-const createUser = require("./createUser")
+const createAUser = require("./createAUser")
 const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
@@ -21,7 +21,7 @@ describe("POST /user", () => {
         body: {},
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -38,7 +38,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -55,7 +55,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -72,7 +72,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -89,7 +89,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -110,7 +110,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -129,7 +129,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -150,7 +150,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(201)
@@ -173,7 +173,7 @@ describe("POST /user", () => {
         },
       })
 
-      const res = await createUser.handler(event, context)
+      const res = await createAUser.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)

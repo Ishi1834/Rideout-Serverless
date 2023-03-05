@@ -1,4 +1,4 @@
-const createClub = require("./createClub")
+const createAClub = require("./createAClub")
 const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
@@ -31,7 +31,7 @@ describe("POST /clubs", () => {
         body: {},
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -47,7 +47,7 @@ describe("POST /clubs", () => {
         },
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -63,7 +63,7 @@ describe("POST /clubs", () => {
         },
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -79,7 +79,7 @@ describe("POST /clubs", () => {
         },
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -96,7 +96,7 @@ describe("POST /clubs", () => {
         },
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       // mock
       expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
@@ -122,7 +122,7 @@ describe("POST /clubs", () => {
         },
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       // mock
       expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
@@ -171,7 +171,7 @@ describe("POST /clubs", () => {
         },
       })
 
-      const res = await createClub.handler(event, context)
+      const res = await createAClub.handler(event, context)
 
       // mock
       expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
