@@ -72,3 +72,12 @@ functions:
       - httpApi:
           path: /clubs
           method: POST
+  findClub:
+    middleware:
+      pre:
+        - src/handlers/auth/authenticate.handler
+    handler: src/handlers/club/findClub.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}
+          method: GET

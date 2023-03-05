@@ -5,4 +5,9 @@ const createClub = async (clubObject) => {
   return club
 }
 
-module.exports = { createClub }
+const findClubById = async (clubId) => {
+  const club = await Club.findById(clubId)
+  return club
+}
+
+module.exports = { createClub, findClubById }
