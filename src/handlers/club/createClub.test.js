@@ -149,7 +149,6 @@ describe("POST /clubs", () => {
       ])
       expect(testUser.save).toHaveBeenCalledTimes(1)
       // response
-      console.log("club", existingClub)
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(201)
       expect(JSON.parse(res.body)).toEqual({
