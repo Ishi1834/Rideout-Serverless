@@ -68,7 +68,7 @@ const clubSchema = new mongoose.Schema({
   ],
   members: [
     {
-      userName: String,
+      username: String,
       userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
