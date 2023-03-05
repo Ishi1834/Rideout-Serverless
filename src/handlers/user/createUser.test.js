@@ -139,7 +139,7 @@ describe("POST /user", () => {
 
   describe("Return 201 user is added to db", () => {
     test("should return 201 and user object", async () => {
-      userUtil.saveUser.mockImplementation(() => existingUser)
+      userUtil.createUser.mockImplementation(() => existingUser)
 
       const event = eventGenerator({
         body: {
@@ -160,7 +160,7 @@ describe("POST /user", () => {
 
   describe("Return 500 if there is an error saving user", () => {
     test("should return 500 and error message", async () => {
-      userUtil.saveUser.mockImplementation(() => {
+      userUtil.createUser.mockImplementation(() => {
         throw new Error("Error saving user")
       })
 

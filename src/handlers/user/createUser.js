@@ -2,7 +2,7 @@ const connectDatabase = require("../../config/dbConn")
 const bcrypt = require("bcrypt")
 const {
   checkUsernameEmailIsTaken,
-  saveUser,
+  createUser,
 } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
@@ -41,7 +41,7 @@ module.exports.handler = async (event, context) => {
     }
 
     // Create and store new user
-    const user = await saveUser(userObject)
+    const user = await createUser(userObject)
     return Responses._201({ user })
   } catch (error) {
     logger(error)

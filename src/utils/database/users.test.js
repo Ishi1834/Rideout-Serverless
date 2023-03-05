@@ -1,6 +1,6 @@
 const {
   checkUsernameEmailIsTaken,
-  saveUser,
+  createUser,
   findUser,
   findUserById,
 } = require("./users")
@@ -47,9 +47,9 @@ describe("All function that interact with DB work correctly", () => {
     })
   })
 
-  describe("SaveUser works correctly", () => {
+  describe("CreateUser works correctly", () => {
     test("user saved to DB successfully", async () => {
-      const savedUser = await saveUser(testUser)
+      const savedUser = await createUser(testUser)
 
       expect(savedUser).toMatchObject(testUser)
     })

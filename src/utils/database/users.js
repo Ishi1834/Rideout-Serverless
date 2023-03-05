@@ -14,7 +14,7 @@ const checkUsernameEmailIsTaken = async ({ username, email }) => {
   return null
 }
 
-const saveUser = async (userObject) => {
+const createUser = async (userObject) => {
   const user = await User.create(userObject)
   return user
 }
@@ -31,7 +31,7 @@ const findUserById = async (userId) => {
 
 module.exports = {
   checkUsernameEmailIsTaken,
-  saveUser,
+  createUser,
   findUser,
   findUserById,
 }
