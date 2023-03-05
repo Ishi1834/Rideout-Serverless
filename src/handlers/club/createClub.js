@@ -12,7 +12,13 @@ module.exports.handler = async (event, context) => {
     const { userId } = context.prev
     const { name, location, city } = JSON.parse(event.body)
 
-    if (!name || !city || !Array.isArray(location) || !location.length === 2) {
+    if (
+      !name ||
+      !city ||
+      !location ||
+      !Array.isArray(location) ||
+      location.length !== 2
+    ) {
       return Responses._400({
         message: "All fields are required",
       })
