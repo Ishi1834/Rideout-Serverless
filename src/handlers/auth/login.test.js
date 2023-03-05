@@ -66,7 +66,7 @@ describe("POST /auth/login", () => {
 
   describe("Return 401 if invalid details are given", () => {
     test("Should return 401 if username doesn't exist", async () => {
-      userUtil.findUser.mockImplementation(() => null)
+      userUtil.DBFindUser.mockImplementation(() => null)
 
       const event = eventGenerator({
         body: {
@@ -78,7 +78,7 @@ describe("POST /auth/login", () => {
       const res = await login.handler(event, context)
 
       // mock
-      expect(userUtil.findUser).toHaveBeenCalledWith({ username: "username" })
+      expect(userUtil.DBFindUser).toHaveBeenCalledWith({ username: "username" })
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(401)
@@ -86,7 +86,7 @@ describe("POST /auth/login", () => {
     })
 
     test("Should return 401 if password doesn't match", async () => {
-      userUtil.findUser.mockImplementation(() => existingUser)
+      userUtil.DBFindUser.mockImplementation(() => existingUser)
       bcrypt.compare.mockImplementation(() => false)
 
       const event = eventGenerator({
@@ -112,7 +112,7 @@ describe("POST /auth/login", () => {
 
   describe("Return 200 if correct details are given", () => {
     test("Should return authToken, refreshToken and 200", async () => {
-      userUtil.findUser.mockImplementation(() => existingUser)
+      userUtil.DBFindUser.mockImplementation(() => existingUser)
       bcrypt.compare.mockImplementation(() => true)
       jwt.sign
         .mockImplementationOnce(() => "authToken")
@@ -159,7 +159,7 @@ describe("POST /auth/login", () => {
 
   describe("Return 500 if there is an error findingUser", () => {
     test("should reutrn 500 and error message", async () => {
-      userUtil.findUser.mockImplementation(() => {
+      userUtil.DBFindUser.mockImplementation(() => {
         throw new Error("Error getting user")
       })
 

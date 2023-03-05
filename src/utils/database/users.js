@@ -1,6 +1,6 @@
 const User = require("../../models/User")
 
-const checkUsernameEmailIsTaken = async ({ username, email }) => {
+const DBCheckUsernameOrEmailIsTaken = async ({ username, email }) => {
   const duplicate = await User.findOne({
     $or: [{ email: email.toLowerCase() }, { username: username.toLowerCase() }],
   })
@@ -14,24 +14,24 @@ const checkUsernameEmailIsTaken = async ({ username, email }) => {
   return null
 }
 
-const createUser = async (userObject) => {
+const DBCreateUser = async (userObject) => {
   const user = await User.create(userObject)
   return user
 }
 
-const findUser = async (userObject) => {
+const DBFindUser = async (userObject) => {
   const user = await User.findOne(userObject).lean()
   return user
 }
 
-const findUserById = async (userId) => {
+const DBFindUserById = async (userId) => {
   const user = await User.findById(userId)
   return user
 }
 
 module.exports = {
-  checkUsernameEmailIsTaken,
-  createUser,
-  findUser,
-  findUserById,
+  DBCheckUsernameOrEmailIsTaken,
+  DBCreateUser,
+  DBFindUser,
+  DBFindUserById,
 }

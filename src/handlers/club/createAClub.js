@@ -1,6 +1,6 @@
 const connectDatabase = require("../../config/dbConn")
-const { findUserById } = require("../../utils/database/users")
-const { createClub } = require("../../utils/database/clubs")
+const { DBFindUserById } = require("../../utils/database/users")
+const { DBCreateClub } = require("../../utils/database/clubs")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
 
@@ -24,12 +24,12 @@ module.exports.handler = async (event, context) => {
       })
     }
 
-    const user = await findUserById(userId)
+    const user = await DBFindUserById(userId)
     if (!user) {
       return Responses._400({ message: "Invalid user" })
     }
 
-    const club = await createClub({
+    const club = await DBCreateClub({
       name,
       location: {
         type: "Point",

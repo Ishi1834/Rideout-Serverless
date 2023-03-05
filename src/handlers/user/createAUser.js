@@ -1,8 +1,8 @@
 const connectDatabase = require("../../config/dbConn")
 const bcrypt = require("bcrypt")
 const {
-  checkUsernameEmailIsTaken,
-  createUser,
+  DBCheckUsernameOrEmailIsTaken,
+  DBCreateUser,
 } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
@@ -21,7 +21,7 @@ module.exports.handler = async (event, context) => {
     }
 
     // Check for duplicate
-    const duplicateProperty = await checkUsernameEmailIsTaken({
+    const duplicateProperty = await DBCheckUsernameOrEmailIsTaken({
       username,
       email,
     })
@@ -41,7 +41,7 @@ module.exports.handler = async (event, context) => {
     }
 
     // Create and store new user
-    const user = await createUser(userObject)
+    const user = await DBCreateUser(userObject)
     return Responses._201({ user })
   } catch (error) {
     logger(error)

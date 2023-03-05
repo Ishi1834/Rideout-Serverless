@@ -1,6 +1,6 @@
 const connectDatabase = require("../../config/dbConn")
 const bcrypt = require("bcrypt")
-const { findUserById } = require("../../utils/database/users")
+const { DBFindUserById } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
 
@@ -18,7 +18,7 @@ module.exports.handler = async (event, context) => {
       })
     }
 
-    const user = await findUserById(userId)
+    const user = await DBFindUserById(userId)
     if (!user) {
       return Responses._400({ message: "Invalid user" })
     }

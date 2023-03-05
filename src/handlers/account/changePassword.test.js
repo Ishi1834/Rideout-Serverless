@@ -69,7 +69,7 @@ describe("POST /account/changePassword", () => {
     })
 
     test("Should return 400 if userId has no associated user in db", async () => {
-      userUtil.findUserById.mockImplementation(() => null)
+      userUtil.DBFindUserById.mockImplementation(() => null)
       const event = eventGenerator({
         body: {
           password: "password",
@@ -80,7 +80,7 @@ describe("POST /account/changePassword", () => {
       const res = await changePassword.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(context.prev.userId)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(context.prev.userId)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -90,7 +90,7 @@ describe("POST /account/changePassword", () => {
 
   describe("Return 401 if wrong password is given", () => {
     test("Should return 401 if password given doesn't match password in database", async () => {
-      userUtil.findUserById.mockImplementation(() => existingUser)
+      userUtil.DBFindUserById.mockImplementation(() => existingUser)
       bcrypt.compare.mockImplementation(() => false)
       const event = eventGenerator({
         body: {
@@ -102,7 +102,7 @@ describe("POST /account/changePassword", () => {
       const res = await changePassword.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(context.prev.userId)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(context.prev.userId)
       expect(bcrypt.compare).toHaveBeenCalledWith(
         "incorrectPassword",
         existingUser.password
@@ -120,7 +120,7 @@ describe("POST /account/changePassword", () => {
         ...existingUser,
         save: jest.fn(),
       }
-      userUtil.findUserById.mockImplementation(() => testUser)
+      userUtil.DBFindUserById.mockImplementation(() => testUser)
       bcrypt.compare.mockImplementation(() => true)
       bcrypt.hash.mockImplementation(() => "hashedNewPassword")
 
@@ -134,7 +134,7 @@ describe("POST /account/changePassword", () => {
       const res = await changePassword.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(context.prev.userId)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(context.prev.userId)
       expect(bcrypt.compare).toHaveBeenCalledWith(
         "password",
         existingUser.password
@@ -150,8 +150,8 @@ describe("POST /account/changePassword", () => {
   })
 
   describe("Return 500 if there is an error", () => {
-    test("Should return 500 if there is an error in findUserById", async () => {
-      userUtil.findUserById.mockImplementation(() => {
+    test("Should return 500 if there is an error in DBFindUserById", async () => {
+      userUtil.DBFindUserById.mockImplementation(() => {
         throw new Error("Error getting user")
       })
       const event = eventGenerator({
@@ -164,7 +164,7 @@ describe("POST /account/changePassword", () => {
       const res = await changePassword.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(context.prev.userId)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(context.prev.userId)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)

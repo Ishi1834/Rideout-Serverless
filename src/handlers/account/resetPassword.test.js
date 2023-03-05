@@ -51,7 +51,7 @@ describe("POST /account/passwordReset", () => {
     })
 
     test("Should return 400 if username has no associated user", async () => {
-      userUtil.findUser.mockImplementation(() => null)
+      userUtil.DBFindUser.mockImplementation(() => null)
       const event = eventGenerator({
         body: {
           username: "username",
@@ -61,7 +61,7 @@ describe("POST /account/passwordReset", () => {
       const res = await resetPassword.handler(event, context)
 
       // mock
-      expect(userUtil.findUser).toHaveBeenCalledWith({ username: "username" })
+      expect(userUtil.DBFindUser).toHaveBeenCalledWith({ username: "username" })
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -75,7 +75,7 @@ describe("POST /account/passwordReset", () => {
         ...existingUser,
         save: () => true,
       }
-      userUtil.findUser.mockImplementation(() => testUser)
+      userUtil.DBFindUser.mockImplementation(() => testUser)
       generator.generate.mockImplementation(() => "temporaryPassword")
       sendEmail.mockImplementation(() => "success")
       bcrypt.hash.mockImplementation(() => "hashedTemporayPassword")
@@ -87,7 +87,7 @@ describe("POST /account/passwordReset", () => {
 
       const res = await resetPassword.handler(event, context)
       // mock
-      expect(userUtil.findUser).toHaveBeenCalledWith({
+      expect(userUtil.DBFindUser).toHaveBeenCalledWith({
         username: existingUser.username,
       })
       expect(generator.generate).toHaveBeenCalledWith({
@@ -110,7 +110,7 @@ describe("POST /account/passwordReset", () => {
 
   describe("Return 500 if there is an error", () => {
     test("Should return 500 and there is an error finding user", async () => {
-      userUtil.findUser.mockImplementation(() => {
+      userUtil.DBFindUser.mockImplementation(() => {
         throw new Error("Error getting user")
       })
 
@@ -122,7 +122,7 @@ describe("POST /account/passwordReset", () => {
 
       const res = await resetPassword.handler(event, context)
       // mock
-      expect(userUtil.findUser).toHaveBeenCalledWith({
+      expect(userUtil.DBFindUser).toHaveBeenCalledWith({
         username: existingUser.username,
       })
       // response

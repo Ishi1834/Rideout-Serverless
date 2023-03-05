@@ -1,8 +1,8 @@
 const {
-  checkUsernameEmailIsTaken,
-  createUser,
-  findUser,
-  findUserById,
+  DBCheckUsernameOrEmailIsTaken,
+  DBCreateUser,
+  DBFindUser,
+  DBFindUserById,
 } = require("./users")
 const User = require("../../models/User")
 
@@ -14,11 +14,11 @@ const testUser = {
 }
 
 describe("All function that interact with DB work correctly", () => {
-  describe("CheckUsernameEmailIsTaken works correctly", () => {
+  describe("DBCheckUsernameOrEmailIsTaken works correctly", () => {
     test("Returns 'email' if email is duplicate", async () => {
       await User.create(testUser)
 
-      const duplicate = await checkUsernameEmailIsTaken({
+      const duplicate = await DBCheckUsernameOrEmailIsTaken({
         username: "not duplicate username",
         email: "email",
       })
@@ -29,7 +29,7 @@ describe("All function that interact with DB work correctly", () => {
     test("Returns 'username' if username is duplicate", async () => {
       await User.create(testUser)
 
-      const duplicate = await checkUsernameEmailIsTaken({
+      const duplicate = await DBCheckUsernameOrEmailIsTaken({
         username: "username",
         email: "not duplicate email",
       })
@@ -38,7 +38,7 @@ describe("All function that interact with DB work correctly", () => {
     })
 
     test("Returns null if username and email are not duplicates", async () => {
-      const duplicate = await checkUsernameEmailIsTaken({
+      const duplicate = await DBCheckUsernameOrEmailIsTaken({
         username: "username",
         email: "email",
       })
@@ -47,41 +47,41 @@ describe("All function that interact with DB work correctly", () => {
     })
   })
 
-  describe("CreateUser works correctly", () => {
+  describe("DBCreateUser works correctly", () => {
     test("user saved to DB successfully", async () => {
-      const savedUser = await createUser(testUser)
+      const savedUser = await DBCreateUser(testUser)
 
       expect(savedUser).toMatchObject(testUser)
     })
   })
 
-  describe("FindUser works correctly", () => {
+  describe("DBFindUser works correctly", () => {
     test("user is returned if user exists in DB", async () => {
       await User.create(testUser)
 
-      const user = await findUser({ username: testUser.username })
+      const user = await DBFindUser({ username: testUser.username })
 
       expect(user).toMatchObject(testUser)
     })
 
     test("null is returned if user doesn't in DB", async () => {
-      const user = await findUser({ username: testUser.username })
+      const user = await DBFindUser({ username: testUser.username })
 
       expect(user).toBe(null)
     })
   })
 
-  describe("FindUserById works correctly", () => {
+  describe("DBFindUserById works correctly", () => {
     test("user is returned if user exists in DB", async () => {
       const { _id } = await User.create(testUser)
 
-      const user = await findUserById(_id.toString())
+      const user = await DBFindUserById(_id.toString())
 
       expect(user).toMatchObject(testUser)
     })
 
     test("null is returned if user doesn't in DB", async () => {
-      const user = await findUserById("randomstring")
+      const user = await DBFindUserById("randomstring")
 
       expect(user).toBe(null)
     })

@@ -48,7 +48,7 @@ describe("POST /account/verification", () => {
     })
 
     test("Should return 400 if userId has no associated user", async () => {
-      userUtil.findUserById.mockImplementation(() => null)
+      userUtil.DBFindUserById.mockImplementation(() => null)
 
       const event = eventGenerator({
         body: {
@@ -66,7 +66,7 @@ describe("POST /account/verification", () => {
 
   describe("Return 200 if correct email is sent", () => {
     test("Should return 200 and message", async () => {
-      userUtil.findUserById.mockImplementation(() => existingUser)
+      userUtil.DBFindUserById.mockImplementation(() => existingUser)
       jwt.sign.mockImplementationOnce(() => "verificationToken")
       sendEmail.mockImplementation(() => "success")
 
@@ -79,7 +79,7 @@ describe("POST /account/verification", () => {
       const res = await sendVerificationEmail.handler(event, context)
 
       // mocks
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       expect(sendEmail).toHaveBeenCalledWith(
         existingUser.email,
         "Confirm your email",
@@ -97,7 +97,7 @@ describe("POST /account/verification", () => {
 
   describe("Return 500 if there is an error sending verification email", () => {
     test("Should return 500 and error message", async () => {
-      userUtil.findUserById.mockImplementation(() => existingUser)
+      userUtil.DBFindUserById.mockImplementation(() => existingUser)
       jwt.sign.mockImplementationOnce(() => "verificationToken")
       sendEmail.mockImplementation(() => {
         throw new Error("Error sending email")
@@ -112,7 +112,7 @@ describe("POST /account/verification", () => {
       const res = await sendVerificationEmail.handler(event, context)
 
       // mocks
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       expect(sendEmail).toHaveBeenCalledWith(
         existingUser.email,
         "Confirm your email",

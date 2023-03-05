@@ -82,7 +82,7 @@ describe("POST /auth/refresh", () => {
           userId: existingUser._id,
         }
       })
-      userUtil.findUserById.mockImplementation(() => null)
+      userUtil.DBFindUserById.mockImplementation(() => null)
 
       const event = eventGenerator({
         body: {
@@ -97,7 +97,7 @@ describe("POST /auth/refresh", () => {
         "validToken",
         "refreshTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(401)
@@ -112,7 +112,7 @@ describe("POST /auth/refresh", () => {
           userId: existingUser._id,
         }
       })
-      userUtil.findUserById.mockImplementation(() => existingUser)
+      userUtil.DBFindUserById.mockImplementation(() => existingUser)
       jwt.sign
         .mockImplementationOnce(() => "authToken")
         .mockImplementationOnce(() => "refreshToken")
@@ -130,7 +130,7 @@ describe("POST /auth/refresh", () => {
         "validToken",
         "refreshTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       expect(jwt.sign).toHaveBeenCalledTimes(2)
       expect(jwt.sign).toHaveBeenNthCalledWith(1, ...existingUserJWTAuthProps)
       expect(jwt.sign).toHaveBeenNthCalledWith(
@@ -138,7 +138,7 @@ describe("POST /auth/refresh", () => {
         ...existingUserJWTRefreshProps
       )
       //
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
@@ -150,14 +150,14 @@ describe("POST /auth/refresh", () => {
     })
   })
 
-  describe("Return 500 if there is an error findUserById", () => {
+  describe("Return 500 if there is an error DBFindUserById", () => {
     test("Should return 500 if userId and error message", async () => {
       jwt.verify.mockImplementation(() => {
         return {
           userId: existingUser._id,
         }
       })
-      userUtil.findUserById.mockImplementation(() => {
+      userUtil.DBFindUserById.mockImplementation(() => {
         throw new Error("Error getting user")
       })
 
@@ -174,7 +174,7 @@ describe("POST /auth/refresh", () => {
         "validToken",
         "refreshTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)

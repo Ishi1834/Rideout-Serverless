@@ -68,7 +68,7 @@ describe("GET /account/verification/:verificationToken", () => {
           userId: nonExistingUserId,
         }
       })
-      userUtil.findUserById.mockImplementation(() => null)
+      userUtil.DBFindUserById.mockImplementation(() => null)
       const event = eventGenerator({
         pathParametersObject: {
           verificationToken: "validRefreshToken",
@@ -82,7 +82,7 @@ describe("GET /account/verification/:verificationToken", () => {
         "validRefreshToken",
         "verificationTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(nonExistingUserId)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(nonExistingUserId)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(401)
@@ -95,7 +95,7 @@ describe("GET /account/verification/:verificationToken", () => {
           userId: existingUser._id,
         }
       })
-      userUtil.findUserById.mockImplementation(() => {
+      userUtil.DBFindUserById.mockImplementation(() => {
         return { ...existingUser, emailVerified: true }
       })
       const event = eventGenerator({
@@ -111,7 +111,7 @@ describe("GET /account/verification/:verificationToken", () => {
         "validRefreshToken",
         "verificationTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(401)
@@ -131,7 +131,7 @@ describe("GET /account/verification/:verificationToken", () => {
           userId: existingUser._id,
         }
       })
-      userUtil.findUserById.mockImplementation(() => testUser)
+      userUtil.DBFindUserById.mockImplementation(() => testUser)
 
       const event = eventGenerator({
         pathParametersObject: {
@@ -146,7 +146,7 @@ describe("GET /account/verification/:verificationToken", () => {
         "validRefreshToken",
         "verificationTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
@@ -168,7 +168,7 @@ describe("GET /account/verification/:verificationToken", () => {
           userId: existingUser._id,
         }
       })
-      userUtil.findUserById.mockImplementation(() => testUser)
+      userUtil.DBFindUserById.mockImplementation(() => testUser)
 
       const event = eventGenerator({
         pathParametersObject: {
@@ -183,7 +183,7 @@ describe("GET /account/verification/:verificationToken", () => {
         "validRefreshToken",
         "verificationTokenSecret"
       )
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)

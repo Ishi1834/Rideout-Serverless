@@ -87,7 +87,7 @@ describe("POST /clubs", () => {
     })
 
     test("Should return 400 if userId has no associated user", async () => {
-      userUtil.findUserById.mockImplementation(() => null)
+      userUtil.DBFindUserById.mockImplementation(() => null)
       const event = eventGenerator({
         body: {
           name: "Cycling club",
@@ -99,7 +99,7 @@ describe("POST /clubs", () => {
       const res = await createAClub.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -111,8 +111,8 @@ describe("POST /clubs", () => {
     test("Should return 200 and club object if club is created successfully", async () => {
       const testUser = { ...existingUser, save: jest.fn() }
       const testClub = { ...existingClub, members: [] }
-      userUtil.findUserById.mockImplementation(() => testUser)
-      clubUtil.createClub.mockImplementation(() => existingClub)
+      userUtil.DBFindUserById.mockImplementation(() => testUser)
+      clubUtil.DBCreateClub.mockImplementation(() => existingClub)
 
       const event = eventGenerator({
         body: {
@@ -125,8 +125,8 @@ describe("POST /clubs", () => {
       const res = await createAClub.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
-      expect(clubUtil.createClub).toHaveBeenCalledWith({
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(clubUtil.DBCreateClub).toHaveBeenCalledWith({
         name: testClub.name,
         location: {
           type: "Point",
@@ -160,7 +160,7 @@ describe("POST /clubs", () => {
 
   describe("Return 500 if there is an error creating club", () => {
     test("Should return 500 and error message", async () => {
-      userUtil.findUserById.mockImplementation(() => {
+      userUtil.DBFindUserById.mockImplementation(() => {
         throw new Error("Error finding user")
       })
       const event = eventGenerator({
@@ -174,7 +174,7 @@ describe("POST /clubs", () => {
       const res = await createAClub.handler(event, context)
 
       // mock
-      expect(userUtil.findUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)

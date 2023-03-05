@@ -1,5 +1,5 @@
 const connectDatabase = require("../../config/dbConn")
-const { findClubById } = require("../../utils/database/clubs")
+const { DBFindClubById } = require("../../utils/database/clubs")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
 
@@ -16,7 +16,7 @@ module.exports.handler = async (event, context) => {
       })
     }
 
-    const club = await findClubById(clubId)
+    const club = await DBFindClubById(clubId)
     if (!club) {
       return Responses._400({ message: "Invalid club" })
     }

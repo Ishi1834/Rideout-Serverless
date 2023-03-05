@@ -99,7 +99,9 @@ describe("POST /user", () => {
 
   describe("Return 400 if unique fields are duplicate", () => {
     test("Should return 400 if username is duplicate", async () => {
-      userUtil.checkUsernameEmailIsTaken.mockImplementation(() => "username")
+      userUtil.DBCheckUsernameOrEmailIsTaken.mockImplementation(
+        () => "username"
+      )
 
       const event = eventGenerator({
         body: {
@@ -118,7 +120,7 @@ describe("POST /user", () => {
     })
 
     test("Should return 400 if email is duplicate", async () => {
-      userUtil.checkUsernameEmailIsTaken.mockImplementation(() => "email")
+      userUtil.DBCheckUsernameOrEmailIsTaken.mockImplementation(() => "email")
 
       const event = eventGenerator({
         body: {
@@ -139,7 +141,7 @@ describe("POST /user", () => {
 
   describe("Return 201 user is added to db", () => {
     test("should return 201 and user object", async () => {
-      userUtil.createUser.mockImplementation(() => existingUser)
+      userUtil.DBCreateUser.mockImplementation(() => existingUser)
 
       const event = eventGenerator({
         body: {
@@ -160,7 +162,7 @@ describe("POST /user", () => {
 
   describe("Return 500 if there is an error saving user", () => {
     test("should return 500 and error message", async () => {
-      userUtil.createUser.mockImplementation(() => {
+      userUtil.DBCreateUser.mockImplementation(() => {
         throw new Error("Error saving user")
       })
 

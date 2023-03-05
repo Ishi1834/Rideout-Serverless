@@ -1,6 +1,6 @@
 const connectDatabase = require("../../config/dbConn")
 const bcrypt = require("bcrypt")
-const { findUser } = require("../../utils/database/users")
+const { DBFindUser } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
 const sendEmail = require("../../utils/sendEmail")
@@ -20,7 +20,7 @@ module.exports.handler = async (event, context) => {
       })
     }
 
-    const user = await findUser({ username })
+    const user = await DBFindUser({ username })
     if (!user) {
       return Responses._400({ message: "Invalid username" })
     }

@@ -1,6 +1,6 @@
 const connectDatabase = require("../../config/dbConn")
 const { verificationTokenSecret } = require("../../config/secretHandler")
-const { findUserById } = require("../../utils/database/users")
+const { DBFindUserById } = require("../../utils/database/users")
 const Responses = require("../../utils/apiResponses")
 const logger = require("../../utils/logger")
 const jwt = require("jsonwebtoken")
@@ -20,7 +20,7 @@ module.exports.handler = async (event, context) => {
 
     const { userId } = jwt.verify(verificationToken, verificationTokenSecret)
 
-    const user = await findUserById(userId)
+    const user = await DBFindUserById(userId)
     if (!user) {
       return Responses._401({ message: "Invalid userId" })
     } else if (user.emailVerified) {
