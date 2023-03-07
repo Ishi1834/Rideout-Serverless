@@ -81,3 +81,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}
           method: GET
+  updateAClub:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubAdmin.handler
+    handler: src/handlers/club/updateAClub.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}
+          method: PATCH
