@@ -12,12 +12,6 @@ module.exports.handler = async (event, context) => {
     await connectDatabase()
     const { verificationToken } = event.pathParameters
 
-    if (!verificationToken) {
-      return Responses._400({
-        message: "All parameters are required",
-      })
-    }
-
     const { userId } = jwt.verify(verificationToken, verificationTokenSecret)
 
     const user = await DBFindUserById(userId)

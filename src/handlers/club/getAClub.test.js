@@ -24,20 +24,6 @@ afterEach(() => {
 
 describe("GET /clubs/:clubId", () => {
   describe("Return 400 if request isn't valid", () => {
-    test("Should return 400 if clubId evaluates to false", async () => {
-      const event = eventGenerator({
-        pathParametersObject: {
-          clubId: "",
-        },
-      })
-
-      const res = await getAClub.handler(event, context)
-
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(400)
-      expect(JSON.parse(res.body).message).toBe("All parameters are required")
-    })
-
     test("Should return 400 if clubId has no associated club", async () => {
       clubUtil.DBFindClubById.mockImplementation(() => null)
       const event = eventGenerator({

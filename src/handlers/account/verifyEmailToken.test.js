@@ -22,22 +22,6 @@ afterEach(() => {
 })
 
 describe("GET /account/verification/:verificationToken", () => {
-  describe("Return 400 if missing required fields", () => {
-    test("Should return 400 if verificationToken evaluates to false", async () => {
-      const event = eventGenerator({
-        pathParametersObject: {
-          verificationToken: "",
-        },
-      })
-
-      const res = await verifyEmailToken.handler(event, context)
-
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(400)
-      expect(JSON.parse(res.body).message).toBe("All parameters are required")
-    })
-  })
-
   describe("Return 401 if request is unauthorized", () => {
     test("Should return 401 if verificationToken is invalid", async () => {
       jwt.verify.mockImplementation(() => {

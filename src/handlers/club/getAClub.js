@@ -10,12 +10,6 @@ module.exports.handler = async (event, context) => {
     await connectDatabase()
     const { clubId } = event.pathParameters
 
-    if (!clubId) {
-      return Responses._400({
-        message: "All parameters are required",
-      })
-    }
-
     const club = await DBFindClubById(clubId)
     if (!club) {
       return Responses._400({ message: "Invalid club" })
