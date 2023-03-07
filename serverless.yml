@@ -91,3 +91,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}
           method: PATCH
+  deleteAClub:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubAdmin.handler
+    handler: src/handlers/club/deleteAClub.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}
+          method: DELETE
