@@ -23,13 +23,13 @@ module.exports.handler = async (event, context) => {
         user.clubs = user.clubs.filter(
           (clubObject) => clubObject.clubId.toString() !== clubId
         )
+        await user.save()
       }
-      await user.save()
     })
 
     await club.deleteOne()
 
-    return Responses._200("Club deleted")
+    return Responses._200({ message: "Club deleted" })
   } catch (error) {
     logger(error)
     return Responses._500({ error: error?.message })
