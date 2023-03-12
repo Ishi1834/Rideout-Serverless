@@ -48,7 +48,7 @@ module.exports.handler = async (event, context) => {
       authorization: "user",
       clubId: club._id,
     })
-    user.clubsRequests = user.clubsRequests.filter(
+    user.clubRequests = user.clubRequests.filter(
       (clubObj) => clubObj.clubId.toString() !== clubId
     )
 

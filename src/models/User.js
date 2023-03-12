@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
-  clubsRequests: [
+  clubRequests: [
     {
       name: String,
       clubId: {
