@@ -24,7 +24,7 @@ const context = {
   },
 }
 
-describe("POST /clubs/:clubId/join", () => {
+describe("PATCH /clubs/:clubId/join", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if clubId has no associated club", async () => {
       clubUtil.DBFindClubById.mockImplementation(() => null)

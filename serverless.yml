@@ -109,4 +109,14 @@ functions:
     events:
       - httpApi:
           path: /clubs/{clubId}/join
-          method: POST
+          method: PATCH
+  leaveAClub:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubUser.handler
+    handler: src/handlers/club/leaveAClub.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/leave
+          method: PATCH
