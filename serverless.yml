@@ -120,3 +120,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/leave
           method: PATCH
+  addAClubMember:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubAdmin.handler
+    handler: src/handlers/club/addAClubMember.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/members
+          method: POST
