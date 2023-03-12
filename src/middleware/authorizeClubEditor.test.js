@@ -68,6 +68,7 @@ describe("authorizeClubEditor middleware", () => {
               authorization: "editor",
             },
           ],
+          userId: "validUserId",
         },
       }
 
@@ -80,7 +81,10 @@ describe("authorizeClubEditor middleware", () => {
       const res = await authorizeClubEditor.handler(event, context)
 
       // response
-      expect(res.userAuthorization).toBe("editor")
+      expect(res).toEqual({
+        userAuthorization: "editor",
+        userId: "validUserId",
+      })
     })
 
     test("Should return userAuthorization if user has role 'admin'", async () => {
@@ -93,6 +97,7 @@ describe("authorizeClubEditor middleware", () => {
               authorization: "admin",
             },
           ],
+          userId: "validUserId",
         },
       }
 
@@ -105,7 +110,10 @@ describe("authorizeClubEditor middleware", () => {
       const res = await authorizeClubEditor.handler(event, context)
 
       // response
-      expect(res.userAuthorization).toBe("admin")
+      expect(res).toEqual({
+        userAuthorization: "admin",
+        userId: "validUserId",
+      })
     })
   })
 })

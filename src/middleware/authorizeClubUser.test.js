@@ -27,28 +27,92 @@ describe("authorizeClubUser middleware", () => {
     expect(JSON.parse(res.body).message).toBe("Forbidden")
   })
 
-  test("Should return userAuthorization if user is club member", async () => {
-    const context = {
-      ...contextBase,
-      prev: {
-        userClubs: [
-          {
-            clubId: existingClub._id,
-            authorization: "user",
-          },
-        ],
-      },
-    }
+  describe("Return userAuthorization if user has correct role", () => {
+    test("Should return userAuthorization if user has role 'user'", async () => {
+      const context = {
+        ...contextBase,
+        prev: {
+          userClubs: [
+            {
+              clubId: existingClub._id,
+              authorization: "user",
+            },
+          ],
+          userId: "validUserId",
+        },
+      }
 
-    const event = eventGenerator({
-      pathParametersObject: {
-        clubId: existingClub._id,
-      },
+      const event = eventGenerator({
+        pathParametersObject: {
+          clubId: existingClub._id,
+        },
+      })
+
+      const res = await authorizeClubUser.handler(event, context)
+
+      // response
+      expect(res).toEqual({
+        userAuthorization: "user",
+        userId: "validUserId",
+      })
     })
 
-    const res = await authorizeClubUser.handler(event, context)
+    test("Should return userAuthorization if user has role 'editor'", async () => {
+      const context = {
+        ...contextBase,
+        prev: {
+          userClubs: [
+            {
+              clubId: existingClub._id,
+              authorization: "editor",
+            },
+          ],
+          userId: "validUserId",
+        },
+      }
 
-    // response
-    expect(res.userAuthorization).toBe("user")
+      const event = eventGenerator({
+        pathParametersObject: {
+          clubId: existingClub._id,
+        },
+      })
+
+      const res = await authorizeClubUser.handler(event, context)
+
+      // response
+      expect(res).toEqual({
+        userAuthorization: "editor",
+        userId: "validUserId",
+      })
+    })
+
+    test("Should return userAuthorization if user has role 'admin'", async () => {
+      const context = {
+        ...contextBase,
+        prev: {
+          userClubs: [
+            {
+              clubId: existingClub._id,
+              authorization: "admin",
+            },
+          ],
+          userId: "validUserId",
+        },
+      }
+
+      const event = eventGenerator({
+        pathParametersObject: {
+          clubId: existingClub._id,
+        },
+      })
+
+      const res = await authorizeClubUser.handler(event, context)
+
+      // response
+      expect(res).toEqual({
+        userAuthorization: "admin",
+        userId: "validUserId",
+      })
+    })
   })
 })

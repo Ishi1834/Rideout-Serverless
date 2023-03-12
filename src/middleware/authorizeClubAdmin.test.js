@@ -96,6 +96,7 @@ describe("authorizeClubAdmin middleware", () => {
               authorization: "admin",
             },
           ],
+          userId: "validUserId",
         },
       }
 
@@ -108,7 +109,10 @@ describe("authorizeClubAdmin middleware", () => {
       const res = await authorizeClubAdmin.handler(event, context)
 
       // response
-      expect(res.userAuthorization).toBe("admin")
+      expect(res).toEqual({
+        userAuthorization: "admin",
+        userId: "validUserId",
+      })
     })
   })
 })
