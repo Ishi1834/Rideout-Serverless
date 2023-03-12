@@ -26,18 +26,18 @@ module.exports.handler = async (event, context) => {
       return Responses._400({ message: "Invalid club" })
     }
 
-    club.members = club.members.map(
+    club.members = club.members.filter(
       (memberObj) => memberObj.userId.toString() !== userId
     )
     club.cyclistCount -= 1
-    user.clubs = user.clubs.map(
+    user.clubs = user.clubs.filter(
       (clubObj) => clubObj.clubId.toString() !== clubId
     )
 
     await club.save()
     await user.save()
 
-    return Responses._200({ message: "User remove from club" })
+    return Responses._200({ message: "User removed from club" })
   } catch (error) {
     logger(error)
     return Responses._500({ error: error?.message })
