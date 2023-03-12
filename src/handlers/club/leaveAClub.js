@@ -22,13 +22,6 @@ module.exports.handler = async (event, context) => {
       return Responses._400({ message: "Invalid user" })
     }
 
-    const userIsClubMember = club.members.find(
-      (memberObj) => memberObj.userId.toString() === userId
-    )
-    if (!userIsClubMember) {
-      return Responses._400({ message: "User not part of club" })
-    }
-
     club.members = club.members.filter(
       (memberObj) => memberObj.userId.toString() !== userId
     )
