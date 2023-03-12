@@ -130,12 +130,12 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/members
           method: POST
-  changeClubMemberRole:
+  changeAClubMemberRole:
     middleware:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
-    handler: src/handlers/club/changeClubMemberRole.handler
+    handler: src/handlers/club/changeAClubMemberRole.handler
     events:
       - httpApi:
           path: /clubs/{clubId}/members

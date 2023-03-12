@@ -1,4 +1,4 @@
-const changeClubMemberRole = require("./changeClubMemberRole")
+const changeAClubMemberRole = require("./changeAClubMemberRole")
 const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const clubUtil = require("../../utils/database/clubs")
@@ -34,7 +34,7 @@ describe("PATCH /clubs/:clubId/members", () => {
         },
       })
 
-      const res = await changeClubMemberRole.handler(event, context)
+      const res = await changeAClubMemberRole.handler(event, context)
 
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
@@ -53,7 +53,7 @@ describe("PATCH /clubs/:clubId/members", () => {
         },
       })
 
-      const res = await changeClubMemberRole.handler(event, context)
+      const res = await changeAClubMemberRole.handler(event, context)
 
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
@@ -76,7 +76,7 @@ describe("PATCH /clubs/:clubId/members", () => {
         },
       })
 
-      const res = await changeClubMemberRole.handler(event, context)
+      const res = await changeAClubMemberRole.handler(event, context)
 
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
@@ -100,7 +100,7 @@ describe("PATCH /clubs/:clubId/members", () => {
         },
       })
 
-      const res = await changeClubMemberRole.handler(event, context)
+      const res = await changeAClubMemberRole.handler(event, context)
 
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
@@ -157,7 +157,7 @@ describe("PATCH /clubs/:clubId/members", () => {
         },
       })
 
-      const res = await changeClubMemberRole.handler(event, context)
+      const res = await changeAClubMemberRole.handler(event, context)
 
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
@@ -215,7 +215,7 @@ describe("PATCH /clubs/:clubId/members", () => {
         },
       })
 
-      const res = await changeClubMemberRole.handler(event, context)
+      const res = await changeAClubMemberRole.handler(event, context)
 
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
