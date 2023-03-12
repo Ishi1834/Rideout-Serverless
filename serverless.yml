@@ -101,3 +101,12 @@ functions:
       - httpApi:
           path: /clubs/{clubId}
           method: DELETE
+  joinAClub:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/club/joinAClub.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/join
+          method: POST

@@ -12,7 +12,7 @@ const clubSchema = new mongoose.Schema({
   },
   userRequestingToJoinClub: [
     {
-      userName: String,
+      username: String,
       userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
