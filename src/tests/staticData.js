@@ -31,6 +31,32 @@ const existingClub = {
   ],
 }
 
+const existingRide = {
+  _id: "23f75fcv97c73d30baddbe18",
+  name: "name",
+  createdBy: {
+    username: existingUser.username,
+    userId: existingUser._id,
+  },
+  date: "date",
+  openRide: false,
+  clubId: existingClub._id,
+  startLocation: {
+    type: "Point",
+    coordinates: [40, 60],
+  },
+  rideType: "social",
+  distance: 40,
+  speed: 25,
+  signedUpCylists: [
+    {
+      username: existingUser.username,
+      userId: existingUser._id,
+    },
+  ],
+  description: "description",
+}
+
 const existingUserJWTAuthProps = [
   {
     userId: existingUser._id,
@@ -53,6 +79,7 @@ module.exports = {
   context,
   existingUser,
   existingClub,
+  existingRide,
   existingUserJWTAuthProps,
   existingUserJWTRefreshProps,
   nonExistingUserId,

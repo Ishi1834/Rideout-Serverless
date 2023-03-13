@@ -28,7 +28,7 @@ module.exports.handler = async (event, context) => {
       !name ||
       !date ||
       !Array.isArray(startLocation) ||
-      !startLocation.length === 2 ||
+      startLocation.length !== 2 ||
       !rideType ||
       !distance ||
       !speed ||
