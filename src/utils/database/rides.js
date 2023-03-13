@@ -10,4 +10,13 @@ const DBFindRideById = async (rideId) => {
   return ride
 }
 
-module.exports = { DBCreateRide, DBFindRideById }
+const DBFindUpcomingRidesByClubId = async (clubId) => {
+  const todaysDate = new Date()
+  const rides = await Ride.find({
+    clubId: clubId,
+    date: { $gte: todaysDate },
+  }).sort({ date: -1 })
+  return rides
+}
+
+module.exports = { DBCreateRide, DBFindRideById, DBFindUpcomingRidesByClubId }
