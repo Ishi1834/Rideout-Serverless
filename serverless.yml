@@ -169,3 +169,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/rides
           method: POST
+  getAClubRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubUser.handler
+    handler: src/handlers/rides/getAClubRide.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/rides/{rideId}
+          method: GET
