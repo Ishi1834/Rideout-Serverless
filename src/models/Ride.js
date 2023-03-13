@@ -78,5 +78,8 @@ const rideSchema = new mongoose.Schema(
     timestamps: true,
   }
 )
-
+// To improve queries indexes should be added for
+// - timestamps<createdAt>
+// - clubId
+// - date
 module.exports = mongoose.model("Ride", rideSchema)
