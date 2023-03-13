@@ -33,10 +33,7 @@ module.exports.handler = async (event, context) => {
     }
 
     if (location) {
-      club.location = {
-        type: "Point",
-        coordinates: location,
-      }
+      club.location.coordinates = location
     }
     if (city) {
       club.city = city
