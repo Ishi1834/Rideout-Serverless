@@ -62,7 +62,7 @@ functions:
       - httpApi:
           path: /account/changePassword
           method: POST
-  # /clubs
+  # clubs
   getClubsNearCoordinates:
     middleware:
       pre:
@@ -110,6 +110,7 @@ functions:
       - httpApi:
           path: /clubs/{clubId}
           method: DELETE
+  # club join or leave
   joinAClub:
     middleware:
       pre:
@@ -129,6 +130,7 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/leave
           method: PATCH
+  # club members
   addAClubMember:
     middleware:
       pre:
@@ -159,6 +161,17 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/members
           method: DELETE
+  # club rides
+  getClubRides:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubUser.handler
+    handler: src/handlers/rides/getClubRides.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/rides
+          method: GET
   createAClubRide:
     middleware:
       pre:
@@ -169,13 +182,3 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/rides
           method: POST
-  getAClubRide:
-    middleware:
-      pre:
-        - src/middleware/authenticate.handler
-        - src/middleware/authorizeClubUser.handler
-    handler: src/handlers/rides/getAClubRide.handler
-    events:
-      - httpApi:
-          path: /clubs/{clubId}/rides/{rideId}
-          method: GET
