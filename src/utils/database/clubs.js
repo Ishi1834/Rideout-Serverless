@@ -10,4 +10,22 @@ const DBFindClubById = async (clubId) => {
   return club
 }
 
-module.exports = { DBCreateClub, DBFindClubById }
+const DBFindClubsNearCoordinates = async (maxDistance, lat, lng) => {
+  const clubs = await Club.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [parseFloat(lng), parseFloat(lat)],
+        },
+        key: "location.coordinates",
+        distanceField: "distanceToClub",
+        maxDistance: parseFloat(maxDistance),
+        spherical: true,
+      },
+    },
+  ])
+  return clubs
+}
+
+module.exports = { DBCreateClub, DBFindClubById, DBFindClubsNearCoordinates }

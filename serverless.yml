@@ -63,6 +63,15 @@ functions:
           path: /account/changePassword
           method: POST
   # /clubs
+  getClubsNearCoordinates:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/club/getClubsNearCoordinates.handler
+    events:
+      - httpApi:
+          path: /clubs
+          method: GET
   createAClub:
     middleware:
       pre:
