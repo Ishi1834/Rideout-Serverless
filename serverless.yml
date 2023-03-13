@@ -182,3 +182,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/rides
           method: POST
+  updateAClubRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubEditor.handler
+    handler: src/handlers/rides/updateAClubRide.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/rides/{rideId}
+          method: PATCH
