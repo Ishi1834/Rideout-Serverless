@@ -16,11 +16,11 @@ const DBFindClubsNearCoordinates = async (maxDistance, lat, lng) => {
       $geoNear: {
         near: {
           type: "Point",
-          coordinates: [parseFloat(lng), parseFloat(lat)],
+          coordinates: [lng, lat],
         },
         key: "location.coordinates",
         distanceField: "distanceToClub",
-        maxDistance: parseFloat(maxDistance),
+        maxDistance: maxDistance,
         spherical: true,
       },
     },

@@ -12,19 +12,20 @@ module.exports.handler = async (event, context) => {
 
     if (!lat || !lng) {
       return Responses._400({ message: "All fields are required" })
-    } else if (
-      parseFloat(maxDistance) < 10000 ||
-      parseFloat(maxDistance) > 100000
-    ) {
+    } else if (parseFloat(maxDistance) < 10000) {
       return Responses._400({
-        message: "MaxDistance should be between 10,000m and 100,000m",
+        message: "MaxDistance should be greater than 10,000m",
       })
     }
 
-    const clubs = await DBFindClubsNearCoordinates(maxDistance, lat, lng)
+    const clubs = await DBFindClubsNearCoordinates(
+      parseFloat(maxDistance),
+      parseFloat(lat),
+      parseFloat(lng)
+    )
 
     if (clubs.length === 0) {
-      return Responses._200({ message: "No clubs near found" })
+      return Responses._200({ message: "No clubs found near coordinates" })
     }
 
     return Responses._200(clubs)
