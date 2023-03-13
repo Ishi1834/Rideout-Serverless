@@ -21,11 +21,8 @@ const userSchema = new mongoose.Schema({
   },
   rides: [
     {
-      name: String,
-      rideId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Ride",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Ride",
     },
   ],
   clubRequests: [

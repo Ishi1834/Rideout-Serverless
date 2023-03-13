@@ -159,3 +159,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/members
           method: DELETE
+  createAClubRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubEditor.handler
+    handler: src/handlers/rides/createAClubRide.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/rides
+          method: POST
