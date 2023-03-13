@@ -24,7 +24,7 @@ const context = {
   },
 }
 
-describe("PATCH /clubs/:clubId/members", () => {
+describe("PATCH /clubs/{clubId}/members", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if userId and changeTo isn't given", async () => {
       const event = eventGenerator({

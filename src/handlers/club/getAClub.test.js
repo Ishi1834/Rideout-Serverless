@@ -22,7 +22,7 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe("GET /clubs/:clubId", () => {
+describe("GET /clubs/{clubId}", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if clubId has no associated club", async () => {
       clubUtil.DBFindClubById.mockImplementation(() => null)

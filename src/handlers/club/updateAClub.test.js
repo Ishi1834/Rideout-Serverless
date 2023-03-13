@@ -22,7 +22,7 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe("PATCH /clubs/:clubId", () => {
+describe("PATCH /clubs/{clubId}", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if no property is given in body", async () => {
       const event = eventGenerator({
