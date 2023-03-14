@@ -42,8 +42,6 @@ const existingRide = {
     userId: existingUser._id,
   },
   date: "date",
-  openRide: false,
-  clubId: existingClub._id,
   startLocation: {
     type: "Point",
     coordinates: [40, 60],

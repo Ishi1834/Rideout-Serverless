@@ -201,6 +201,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
       const testRide = {
         ...existingRide,
         save: jest.fn(),
+        clubId: existingClub._id,
       }
       rideUtil.DBFindRideById.mockImplementation(() => testRide)
       testRide.save.mockImplementation(() => testRide)
@@ -227,6 +228,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
         message: "Ride updated",
         ride: {
           ...existingRide,
+          clubId: existingClub._id,
           startLocation: {
             type: "Point",
             coordinates: [40, 50],
@@ -238,6 +240,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
     test("Should return 200 and update properties which are given in body", async () => {
       const testRide = {
         ...existingRide,
+        clubId: existingClub._id,
         save: jest.fn(),
       }
       rideUtil.DBFindRideById.mockImplementation(() => testRide)
@@ -270,6 +273,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
         message: "Ride updated",
         ride: {
           ...existingRide,
+          clubId: existingClub._id,
           rideType: "training",
           distance: "33",
           speed: "17",

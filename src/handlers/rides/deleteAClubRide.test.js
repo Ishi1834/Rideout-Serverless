@@ -122,6 +122,7 @@ describe("DELETE /clubs/{clubId}/rides/{rideId}", () => {
             userId: existingUser._id,
           },
         ],
+        clubId: existingClub._id,
         deleteOne: jest.fn(),
       }
       const testClub = {
@@ -181,6 +182,7 @@ describe("DELETE /clubs/{clubId}/rides/{rideId}", () => {
             userId: existingUser._id,
           },
         ],
+        clubId: existingClub._id,
         deleteOne: jest.fn(),
       }
       rideUtil.DBFindRideById.mockImplementation(() => testRide)
@@ -228,6 +230,7 @@ describe("DELETE /clubs/{clubId}/rides/{rideId}", () => {
             userId: existingUser._id,
           },
         ],
+        clubId: existingClub._id,
         deleteOne: jest.fn(),
       }
       const testClub = {
