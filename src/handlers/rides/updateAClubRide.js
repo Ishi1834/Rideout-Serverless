@@ -48,7 +48,7 @@ module.exports.handler = async (event, context) => {
     if (!ride) {
       return Responses._400({ message: "Invalid ride" })
     } else if (
-      ride.clubId.toString() !== clubId ||
+      ride?.clubId?.toString() !== clubId ||
       ride.createdBy.userId.toString() !== userId
     ) {
       return Responses._403({ message: "Forbidden" })
