@@ -87,7 +87,10 @@ describe("DELETE /clubs/{clubId}", () => {
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith(testClub._id)
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
       expect(testUser.save).toHaveBeenCalledTimes(1)
-      expect(testUser.clubs).toHaveLength(0)
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        clubs: [],
+      })
       expect(testClub.deleteOne).toHaveBeenCalledTimes(1)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)

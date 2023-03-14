@@ -100,8 +100,14 @@ describe("PATCH /clubs/{clubId}/leave", () => {
       // mock
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith(existingClub._id)
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      expect(testClub.members).toEqual([])
-      expect(testUser.clubs).toEqual([])
+      expect(testClub).toMatchObject({
+        ...existingClub,
+        members: [],
+      })
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        clubs: [],
+      })
       expect(testClub.save).toHaveBeenCalledTimes(1)
       expect(testUser.save).toHaveBeenCalledTimes(1)
       // response

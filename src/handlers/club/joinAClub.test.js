@@ -152,20 +152,27 @@ describe("PATCH /clubs/{clubId}/join", () => {
       // mock
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith("validClubId")
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
+      expect(testClub).toMatchObject({
+        ...existingClub,
+        members: [],
+        userRequestingToJoinClub: [
+          {
+            username: testUser.username,
+            userId: testUser._id,
+          },
+        ],
+      })
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        clubsRequests: [
+          {
+            name: testClub.name,
+            clubId: testClub._id,
+          },
+        ],
+      })
       expect(testClub.save).toHaveBeenCalledTimes(1)
       expect(testUser.save).toHaveBeenCalledTimes(1)
-      expect(testClub.userRequestingToJoinClub).toEqual([
-        {
-          username: testUser.username,
-          userId: testUser._id,
-        },
-      ])
-      expect(testUser.clubsRequests).toEqual([
-        {
-          name: testClub.name,
-          clubId: testClub._id,
-        },
-      ])
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)

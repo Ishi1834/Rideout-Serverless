@@ -100,7 +100,10 @@ describe("POST /account/passwordReset", () => {
         generatePasswordResetContent(existingUser.name, "temporaryPassword")
       )
       expect(bcrypt.hash).toHaveBeenCalledWith("temporaryPassword", 10)
-      expect(testUser.password).toBe("hashedTemporayPassword")
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        password: "hashedTemporayPassword",
+      })
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)

@@ -342,12 +342,12 @@ describe("POST /clubs/{clubId}/rides", () => {
         cafeStops: "No stops given",
         route: "No route given",
       })
-      expect(testUser).toEqual({
-        ...testUser,
+      expect(testUser).toMatchObject({
+        ...existingUser,
         rides: [existingRide._id],
       })
-      expect(testClub).toEqual({
-        ...testClub,
+      expect(testClub).toMatchObject({
+        ...existingClub,
         rides: [existingRide._id],
       })
       expect(testUser.save).toHaveBeenCalledTimes(1)

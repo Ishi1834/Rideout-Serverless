@@ -108,7 +108,7 @@ describe("GET /account/verification/:verificationToken", () => {
       const testUser = {
         ...existingUser,
         emailVerified: false,
-        save: () => true,
+        save: jest.fn(),
       }
       jwt.verify.mockImplementation(() => {
         return {
@@ -131,6 +131,11 @@ describe("GET /account/verification/:verificationToken", () => {
         "verificationTokenSecret"
       )
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        emailVerified: true,
+      })
+      expect(testUser.save).toHaveBeenCalledTimes(1)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
@@ -143,9 +148,7 @@ describe("GET /account/verification/:verificationToken", () => {
       const testUser = {
         ...existingUser,
         emailVerified: false,
-        save: () => {
-          throw new Error("Error saving changes")
-        },
+        save: jest.fn(),
       }
       jwt.verify.mockImplementation(() => {
         return {
@@ -153,6 +156,9 @@ describe("GET /account/verification/:verificationToken", () => {
         }
       })
       userUtil.DBFindUserById.mockImplementation(() => testUser)
+      testUser.save.mockImplementation(() => {
+        throw new Error("Error saving changes")
+      })
 
       const event = eventGenerator({
         pathParametersObject: {

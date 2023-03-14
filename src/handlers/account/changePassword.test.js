@@ -141,7 +141,10 @@ describe("POST /account/changePassword", () => {
       )
       expect(bcrypt.hash).toHaveBeenCalledWith("newPassword", 10)
       expect(testUser.save).toHaveBeenCalledTimes(1)
-      expect(testUser.password).toBe("hashedNewPassword")
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        password: "hashedNewPassword",
+      })
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)

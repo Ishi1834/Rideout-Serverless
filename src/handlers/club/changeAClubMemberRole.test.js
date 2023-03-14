@@ -162,8 +162,8 @@ describe("PATCH /clubs/{clubId}/members", () => {
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith(testClub._id)
-      expect(testUser).toEqual({
-        ...testUser,
+      expect(testUser).toMatchObject({
+        ...existingUser,
         clubs: [
           {
             clubId: testClub._id,
@@ -175,8 +175,8 @@ describe("PATCH /clubs/{clubId}/members", () => {
           },
         ],
       })
-      expect(testClub).toEqual({
-        ...testClub,
+      expect(testClub).toMatchObject({
+        ...existingClub,
         members: [
           {
             authorization: "editor",

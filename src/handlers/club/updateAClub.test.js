@@ -113,7 +113,7 @@ describe("PATCH /clubs/{clubId}", () => {
           clubId: "validClubId",
         },
         body: {
-          location: [50, 50],
+          location: [50, 70],
         },
       })
 
@@ -131,7 +131,7 @@ describe("PATCH /clubs/{clubId}", () => {
           ...existingClub,
           location: {
             type: "Point",
-            coordinates: [50, 50],
+            coordinates: [50, 70],
           },
         },
       })

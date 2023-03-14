@@ -161,7 +161,7 @@ describe("POST /clubs/{clubId}/members", () => {
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith(testClub._id)
-      expect(testClub).toEqual({
+      expect(testClub).toMatchObject({
         ...testClub,
         members: [
           {
@@ -171,8 +171,8 @@ describe("POST /clubs/{clubId}/members", () => {
         ],
         userRequestingToJoinClub: [],
       })
-      expect(testUser).toEqual({
-        ...testUser,
+      expect(testUser).toMatchObject({
+        ...existingUser,
         clubs: [
           {
             authorization: "user",

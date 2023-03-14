@@ -141,12 +141,15 @@ describe("POST /clubs", () => {
           },
         ],
       })
-      expect(testUser.clubs).toEqual([
-        {
-          authorization: "admin",
-          clubId: testClub._id,
-        },
-      ])
+      expect(testUser).toMatchObject({
+        ...existingUser,
+        clubs: [
+          {
+            authorization: "admin",
+            clubId: testClub._id,
+          },
+        ],
+      })
       expect(testUser.save).toHaveBeenCalledTimes(1)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)

@@ -139,8 +139,8 @@ describe("DELETE /clubs/{clubId}/members", () => {
       // mocks
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith(testClub._id)
-      expect(testUser).toEqual({
-        ...testUser,
+      expect(testUser).toMatchObject({
+        ...existingUser,
         clubs: [
           {
             clubId: "randommongooseobjectid",
@@ -148,8 +148,8 @@ describe("DELETE /clubs/{clubId}/members", () => {
           },
         ],
       })
-      expect(testClub).toEqual({
-        ...testClub,
+      expect(testClub).toMatchObject({
+        ...existingClub,
         cyclistCount: 1,
         members: [
           {
