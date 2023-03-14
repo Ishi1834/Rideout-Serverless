@@ -23,6 +23,7 @@ const existingClub = {
   },
   city: "city",
   cyclistCount: 1,
+  activitiesCount: 0,
   rides: [],
   members: [
     {
