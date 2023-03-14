@@ -25,6 +25,7 @@ module.exports.handler = async (event, context) => {
     club.members = club.members.filter(
       (memberObj) => memberObj.userId.toString() !== userId
     )
+    club.cyclistCount -= 1
     user.clubs = user.clubs.filter(
       (clubObj) => clubObj.clubId.toString() !== clubId
     )

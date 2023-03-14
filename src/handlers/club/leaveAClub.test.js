@@ -102,6 +102,7 @@ describe("PATCH /clubs/{clubId}/leave", () => {
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       expect(testClub).toMatchObject({
         ...existingClub,
+        cyclistCount: 0,
         members: [],
       })
       expect(testUser).toMatchObject({

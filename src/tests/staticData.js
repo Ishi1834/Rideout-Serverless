@@ -22,6 +22,8 @@ const existingClub = {
     coordinates: [50, 50],
   },
   city: "city",
+  cyclistCount: 1,
+  rides: [],
   members: [
     {
       username: existingUser.username,
