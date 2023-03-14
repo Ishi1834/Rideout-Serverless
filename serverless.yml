@@ -202,3 +202,13 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/rides/{rideId}
           method: DELETE
+  # open rides
+  createAnOpenRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/rides/createAnOpenRide.handler
+    events:
+      - httpApi:
+          path: /rides
+          method: POST
