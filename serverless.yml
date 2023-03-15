@@ -203,6 +203,15 @@ functions:
           path: /clubs/{clubId}/rides/{rideId}
           method: DELETE
   # open rides
+  getOpenRidesNearCoordinates:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/rides/getOpenRidesNearCoordinates.handler
+    events:
+      - httpApi:
+          path: /rides
+          method: GET
   createAnOpenRide:
     middleware:
       pre:
