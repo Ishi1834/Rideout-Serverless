@@ -221,3 +221,12 @@ functions:
       - httpApi:
           path: /rides
           method: POST
+  updateAnOpenRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/rides/updateAnOpenRide.handler
+    events:
+      - httpApi:
+          path: /rides/{rideId}
+          method: PATCH
