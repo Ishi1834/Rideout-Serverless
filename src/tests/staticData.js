@@ -49,7 +49,7 @@ const existingRide = {
   rideType: "social",
   distance: 40,
   speed: 25,
-  signedUpCylists: [
+  signedUpCyclists: [
     {
       username: existingUser.username,
       userId: existingUser._id,
