@@ -1,3 +1,4 @@
+const { TrackingOptionsDoesNotExistException } = require("@aws-sdk/client-ses")
 const Ride = require("../../models/Ride")
 
 const DBCreateRide = async (rideObject) => {
@@ -19,4 +20,35 @@ const DBFindUpcomingRidesByClubId = async (clubId) => {
   return rides
 }
 
-module.exports = { DBCreateRide, DBFindRideById, DBFindUpcomingRidesByClubId }
+const DBFindUpcomingOpenRidesNearCoordinates = async (
+  maxDistance,
+  lat,
+  lng
+) => {
+  /* 
+  const todaysDate = new Date()
+  add filter for date and sorting
+   */
+  const rides = await Ride.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: "Point",
+          coordinates: [lng, lat],
+        },
+        key: "location.coordinates",
+        distanceField: "distanceToClub",
+        maxDistance: maxDistance,
+        spherical: true,
+      },
+    },
+  ])
+  return rides
+}
+
+module.exports = {
+  DBCreateRide,
+  DBFindRideById,
+  DBFindUpcomingRidesByClubId,
+  DBFindUpcomingOpenRidesNearCoordinates,
+}
