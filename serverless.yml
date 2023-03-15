@@ -14,14 +14,23 @@ provider:
   stage: ${opt:stage, 'dev'}
 
 functions:
-  # /users
+  # users
   createAUser:
     handler: src/handlers/user/createAUser.handler
     events:
       - httpApi:
           path: /users
           method: POST
-  # /auth
+  getAUser:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/user/getAUser.handler
+    events:
+      - httpApi:
+          path: /users/{userId}
+          method: GET
+  # auth
   login:
     handler: src/handlers/auth/login.handler
     events:
@@ -34,7 +43,7 @@ functions:
       - httpApi:
           path: /auth/refresh
           method: POST
-  # /account
+  # account
   sendVerificationEmail:
     handler: src/handlers/account/sendVerificationEmail.handler
     events:
