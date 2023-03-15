@@ -230,3 +230,12 @@ functions:
       - httpApi:
           path: /rides/{rideId}
           method: PATCH
+  deleteAnOpenRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/rides/deleteAnOpenRide.handler
+    events:
+      - httpApi:
+          path: /rides/{rideId}
+          method: DELETE
