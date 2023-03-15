@@ -10,17 +10,20 @@ module.exports.handler = async (event, context) => {
   try {
     await connectDatabase()
     const { userId } = context.prev
-    const { rideId } = event.pathParameters
+    const { clubId, rideId } = event.pathParameters
+
+    const user = await DBFindUserById(userId)
+    if (!user) {
+      return Responses._400({ message: "Invalid user" })
+    }
 
     const ride = await DBFindRideById(rideId)
     if (!ride) {
       return Responses._400({ message: "Invalid ride" })
-    } else if (!ride.openRide) {
+    } else if (!ride.openRide && !clubId) {
       return Responses._403({ message: "Forbidden" })
-    }
-    const user = await DBFindUserById(userId)
-    if (!user) {
-      return Responses._400({ message: "Invalid user" })
+    } else if (ride?.clubId?.toString() !== clubId) {
+      return Responses._403({ message: "Forbidden" })
     }
 
     const userHasJoinedRide = ride.signedUpCyclists.find(

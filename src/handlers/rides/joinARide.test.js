@@ -1,4 +1,4 @@
-const joinAnOpenRide = require("./joinAnOpenRide")
+const joinARide = require("./joinARide")
 const eventGenerator = require("../../tests/utils/eventGenerator")
 const validators = require("../../tests/utils/validators")
 const rideUtil = require("../../utils/database/rides")
@@ -25,32 +25,7 @@ afterEach(() => {
 
 describe("PATCH /rides/{rideId}/join", () => {
   describe("Return 400 if request isn't valid", () => {
-    test("Should return 400 if rideId has no associated ride", async () => {
-      rideUtil.DBFindRideById.mockImplementation(() => null)
-
-      const event = eventGenerator({
-        pathParametersObject: {
-          rideId: existingRide._id,
-        },
-        body: {},
-      })
-
-      const res = await joinAnOpenRide.handler(event, context)
-
-      // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(400)
-      expect(JSON.parse(res.body).message).toBe("Invalid ride")
-    })
-
     test("Should return 400 if userId has no associated user", async () => {
-      const testRide = {
-        ...existingRide,
-        openRide: true,
-      }
-      rideUtil.DBFindRideById.mockImplementation(() => testRide)
       userUtil.DBFindUserById.mockImplementation(() => null)
 
       const event = eventGenerator({
@@ -60,10 +35,9 @@ describe("PATCH /rides/{rideId}/join", () => {
         body: {},
       })
 
-      const res = await joinAnOpenRide.handler(event, context)
+      const res = await joinARide.handler(event, context)
 
       // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
@@ -71,13 +45,9 @@ describe("PATCH /rides/{rideId}/join", () => {
       expect(JSON.parse(res.body).message).toBe("Invalid user")
     })
 
-    test("Should return 400 if user has already joined ride", async () => {
-      const testRide = {
-        ...existingRide,
-        openRide: true,
-      }
-      rideUtil.DBFindRideById.mockImplementation(() => testRide)
+    test("Should return 400 if rideId has no associated ride", async () => {
       userUtil.DBFindUserById.mockImplementation(() => existingUser)
+      rideUtil.DBFindRideById.mockImplementation(() => null)
 
       const event = eventGenerator({
         pathParametersObject: {
@@ -86,11 +56,37 @@ describe("PATCH /rides/{rideId}/join", () => {
         body: {},
       })
 
-      const res = await joinAnOpenRide.handler(event, context)
+      const res = await joinARide.handler(event, context)
 
       // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
+      // response
+      expect(validators.isApiGatewayResponse(res)).toBe(true)
+      expect(res.statusCode).toBe(400)
+      expect(JSON.parse(res.body).message).toBe("Invalid ride")
+    })
+
+    test("Should return 400 if user has already joined ride", async () => {
+      const testRide = {
+        ...existingRide,
+        openRide: true,
+      }
+      userUtil.DBFindUserById.mockImplementation(() => existingUser)
+      rideUtil.DBFindRideById.mockImplementation(() => testRide)
+
+      const event = eventGenerator({
+        pathParametersObject: {
+          rideId: existingRide._id,
+        },
+        body: {},
+      })
+
+      const res = await joinARide.handler(event, context)
+
+      // mocks
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(400)
@@ -101,46 +97,79 @@ describe("PATCH /rides/{rideId}/join", () => {
   })
 
   describe("Return 403 if user doesn't have correct authorization", () => {
-    test("Should return 403 if ride isn't an openRide", async () => {
-      const testRide = {
-        ...existingRide,
-        openRide: false,
-      }
-      rideUtil.DBFindRideById.mockImplementation(() => testRide)
+    describe("Route /rides/{rideId}", () => {
+      test("Should return 403 if ride isn't an openRide and route isn't", async () => {
+        const testRide = {
+          ...existingRide,
+          openRide: false,
+        }
+        userUtil.DBFindUserById.mockImplementation(() => existingUser)
+        rideUtil.DBFindRideById.mockImplementation(() => testRide)
 
-      const event = eventGenerator({
-        pathParametersObject: {
-          rideId: existingRide._id,
-        },
-        body: {},
+        const event = eventGenerator({
+          pathParametersObject: {
+            rideId: existingRide._id,
+          },
+          body: {},
+        })
+
+        const res = await joinARide.handler(event, context)
+
+        // mocks
+        expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+        expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
+        // response
+        expect(validators.isApiGatewayResponse(res)).toBe(true)
+        expect(res.statusCode).toBe(403)
+        expect(JSON.parse(res.body).message).toBe("Forbidden")
       })
+    })
 
-      const res = await joinAnOpenRide.handler(event, context)
+    describe("Route /clubs/{clubId}/rides/{rideId}", () => {
+      test("Should return 403 if ride.clubId doesn't match path paramter clubId", async () => {
+        const testRide = {
+          ...existingRide,
+          openRide: false,
+        }
+        userUtil.DBFindUserById.mockImplementation(() => existingUser)
+        rideUtil.DBFindRideById.mockImplementation(() => testRide)
 
-      // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(403)
-      expect(JSON.parse(res.body).message).toBe("Forbidden")
+        const event = eventGenerator({
+          pathParametersObject: {
+            rideId: existingRide._id,
+            clubId: "differentClubId",
+          },
+          body: {},
+        })
+
+        const res = await joinARide.handler(event, context)
+
+        // mocks
+        expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+        expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
+        // response
+        expect(validators.isApiGatewayResponse(res)).toBe(true)
+        expect(res.statusCode).toBe(403)
+        expect(JSON.parse(res.body).message).toBe("Forbidden")
+      })
     })
   })
 
   describe("Return 200 if request is valid", () => {
     test("Should return 200 and add user to ride", async () => {
+      const testUser = {
+        ...existingUser,
+        rides: [],
+        save: jest.fn(),
+      }
       const testRide = {
         ...existingRide,
         signedUpCyclists: [],
         openRide: true,
         save: jest.fn(),
       }
-      const testUser = {
-        ...existingUser,
-        rides: [],
-        save: jest.fn(),
-      }
-      rideUtil.DBFindRideById.mockImplementation(() => testRide)
       userUtil.DBFindUserById.mockImplementation(() => testUser)
+      rideUtil.DBFindRideById.mockImplementation(() => testRide)
 
       const event = eventGenerator({
         pathParametersObject: {
@@ -149,11 +178,11 @@ describe("PATCH /rides/{rideId}/join", () => {
         body: {},
       })
 
-      const res = await joinAnOpenRide.handler(event, context)
+      const res = await joinARide.handler(event, context)
 
       // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
       expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
+      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
       expect(testRide).toMatchObject({
         ...existingRide,
         signedUpCyclists: [
@@ -179,8 +208,8 @@ describe("PATCH /rides/{rideId}/join", () => {
 
   describe("Return 500 if there is an error", () => {
     test("Should return 500 and error message", async () => {
-      rideUtil.DBFindRideById.mockImplementation(() => {
-        throw new Error("Error finding ride")
+      userUtil.DBFindUserById.mockImplementation(() => {
+        throw new Error("Error finding user")
       })
 
       const event = eventGenerator({
@@ -190,14 +219,14 @@ describe("PATCH /rides/{rideId}/join", () => {
         body: {},
       })
 
-      const res = await joinAnOpenRide.handler(event, context)
+      const res = await joinARide.handler(event, context)
 
       // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
+      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding ride")
+      expect(JSON.parse(res.body).error).toBe("Error finding user")
     })
   })
 })

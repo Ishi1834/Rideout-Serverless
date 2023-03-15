@@ -202,6 +202,17 @@ functions:
       - httpApi:
           path: /clubs/{clubId}/rides/{rideId}
           method: DELETE
+  # join a club ride
+  joinAClubRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeClubUser.handler
+    handler: src/handlers/rides/joinARide.handler
+    events:
+      - httpApi:
+          path: /clubs/{clubId}/rides/{rideId}/join
+          method: PATCH
   # open rides
   getOpenRidesNearCoordinates:
     middleware:
@@ -239,11 +250,12 @@ functions:
       - httpApi:
           path: /rides/{rideId}
           method: DELETE
+  # join an open ride
   joinAnOpenRide:
     middleware:
       pre:
         - src/middleware/authenticate.handler
-    handler: src/handlers/rides/joinAnOpenRide.handler
+    handler: src/handlers/rides/joinARide.handler
     events:
       - httpApi:
           path: /rides/{rideId}/join
