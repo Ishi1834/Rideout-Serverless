@@ -16,7 +16,7 @@ provider:
 functions:
   # users
   createAUser:
-    handler: src/handlers/user/createAUser.handler
+    handler: src/handlers/users/createAUser.handler
     events:
       - httpApi:
           path: /users
@@ -25,7 +25,7 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
-    handler: src/handlers/user/getAUser.handler
+    handler: src/handlers/users/getAUser.handler
     events:
       - httpApi:
           path: /users/{userId}
@@ -76,7 +76,7 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
-    handler: src/handlers/club/getClubsNearCoordinates.handler
+    handler: src/handlers/clubs/getClubsNearCoordinates.handler
     events:
       - httpApi:
           path: /clubs
@@ -85,7 +85,7 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
-    handler: src/handlers/club/createAClub.handler
+    handler: src/handlers/clubs/createAClub.handler
     events:
       - httpApi:
           path: /clubs
@@ -94,7 +94,7 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
-    handler: src/handlers/club/getAClub.handler
+    handler: src/handlers/clubs/getAClub.handler
     events:
       - httpApi:
           path: /clubs/{clubId}
@@ -104,7 +104,7 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
-    handler: src/handlers/club/updateAClub.handler
+    handler: src/handlers/clubs/updateAClub.handler
     events:
       - httpApi:
           path: /clubs/{clubId}
@@ -114,7 +114,7 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
-    handler: src/handlers/club/deleteAClub.handler
+    handler: src/handlers/clubs/deleteAClub.handler
     events:
       - httpApi:
           path: /clubs/{clubId}
@@ -124,7 +124,7 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
-    handler: src/handlers/club/joinAClub.handler
+    handler: src/handlers/clubs/joinAClub.handler
     events:
       - httpApi:
           path: /clubs/{clubId}/join
@@ -134,7 +134,7 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubUser.handler
-    handler: src/handlers/club/leaveAClub.handler
+    handler: src/handlers/clubs/leaveAClub.handler
     events:
       - httpApi:
           path: /clubs/{clubId}/leave
@@ -145,7 +145,7 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
-    handler: src/handlers/club/addAClubMember.handler
+    handler: src/handlers/clubs/addAClubMember.handler
     events:
       - httpApi:
           path: /clubs/{clubId}/members
@@ -155,7 +155,7 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
-    handler: src/handlers/club/changeAClubMemberRole.handler
+    handler: src/handlers/clubs/changeAClubMemberRole.handler
     events:
       - httpApi:
           path: /clubs/{clubId}/members
@@ -165,7 +165,7 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
-    handler: src/handlers/club/removeAClubMember.handler
+    handler: src/handlers/clubs/removeAClubMember.handler
     events:
       - httpApi:
           path: /clubs/{clubId}/members
