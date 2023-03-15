@@ -239,3 +239,12 @@ functions:
       - httpApi:
           path: /rides/{rideId}
           method: DELETE
+  joinAnOpenRide:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+    handler: src/handlers/rides/joinAnOpenRide.handler
+    events:
+      - httpApi:
+          path: /rides/{rideId}/join
+          method: PATCH
