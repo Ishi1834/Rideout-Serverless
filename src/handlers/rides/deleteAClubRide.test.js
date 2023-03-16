@@ -84,7 +84,11 @@ describe("DELETE /clubs/{clubId}/rides/{rideId}", () => {
           userAuthorization: "editor",
         },
       }
-      rideUtil.DBFindRideById.mockImplementation(() => existingRide)
+      const testRide = {
+        ...existingRide,
+        clubId: existingClub._id,
+      }
+      rideUtil.DBFindRideById.mockImplementation(() => testRide)
 
       const event = eventGenerator({
         pathParametersObject: {
