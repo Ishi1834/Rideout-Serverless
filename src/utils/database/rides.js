@@ -46,9 +46,18 @@ const DBFindUpcomingOpenRidesNearCoordinates = async (
   return rides
 }
 
+const DBRemoveUserFromRide = async (rideId, userId) => {
+  const ride = await Ride.findById(rideId)
+  ride.signedUpCyclists = ride.signedUpCyclists.filter(
+    (cyclistObject) => cyclistObject.userId.toString() !== userId
+  )
+  await ride.save()
+}
+
 module.exports = {
   DBCreateRide,
   DBFindRideById,
   DBFindUpcomingRidesByClubId,
   DBFindUpcomingOpenRidesNearCoordinates,
+  DBRemoveUserFromRide,
 }

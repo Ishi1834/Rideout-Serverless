@@ -28,4 +28,17 @@ const DBFindClubsNearCoordinates = async (maxDistance, lat, lng) => {
   return clubs
 }
 
-module.exports = { DBCreateClub, DBFindClubById, DBFindClubsNearCoordinates }
+const DBRemoveUserFromClub = async (clubId, userId) => {
+  const club = await Club.findById(clubId)
+  club.members = club.members.filter(
+    (memberObject) => memberObject.userId.toString() !== userId
+  )
+  await club.save()
+}
+
+module.exports = {
+  DBCreateClub,
+  DBFindClubById,
+  DBFindClubsNearCoordinates,
+  DBRemoveUserFromClub,
+}
