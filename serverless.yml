@@ -30,6 +30,16 @@ functions:
       - httpApi:
           path: /users/{userId}
           method: GET
+  deleteAUser:
+    middleware:
+      pre:
+        - src/middleware/authenticate.handler
+        - src/middleware/authorizeUser.handler
+    handler: src/handlers/users/deleteAUser.handler
+    events:
+      - httpApi:
+          path: /users/{userId}
+          method: DELETE
   # auth
   login:
     handler: src/handlers/auth/login.handler
