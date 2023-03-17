@@ -13,7 +13,7 @@ const testUser = {
   email: "email",
 }
 
-describe("All function that interact with DB work correctly", () => {
+describe("Database User helper function works correctly", () => {
   describe("DBCheckUsernameOrEmailIsTaken works correctly", () => {
     test("Returns 'email' if email is duplicate", async () => {
       await User.create(testUser)
