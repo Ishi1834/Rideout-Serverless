@@ -1,4 +1,3 @@
-const { TrackingOptionsDoesNotExistException } = require("@aws-sdk/client-ses")
 const Ride = require("../../models/Ride")
 
 const DBCreateRide = async (rideObject) => {
@@ -22,8 +21,8 @@ const DBFindUpcomingRidesByClubId = async (clubId) => {
 
 const DBFindUpcomingOpenRidesNearCoordinates = async (
   maxDistance,
-  lat,
-  lng
+  lng,
+  lat
 ) => {
   /* 
   const todaysDate = new Date()
@@ -36,7 +35,7 @@ const DBFindUpcomingOpenRidesNearCoordinates = async (
           type: "Point",
           coordinates: [lng, lat],
         },
-        key: "location.coordinates",
+        key: "startLocation.coordinates",
         distanceField: "distanceToClub",
         maxDistance: maxDistance,
         spherical: true,
