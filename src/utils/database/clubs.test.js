@@ -2,6 +2,7 @@ const {
   DBCreateClub,
   DBFindClubById,
   DBRemoveUserFromClub,
+  DBFindClubsNearCoordinates,
 } = require("./clubs")
 const mongoose = require("mongoose")
 const Club = require("../../models/Club")
@@ -18,6 +19,16 @@ const baseTestClub = {
   rides: [],
   members: [],
 }
+
+beforeEach(() => {
+  Club.ensureIndexes(function (err) {
+    if (err) console.log(err)
+  })
+
+  Club.on("index", function (err) {
+    if (err) console.log(err)
+  })
+})
 
 describe("Database Club helper functions work correctly", () => {
   describe("DBCreateClub works correctly", () => {
@@ -41,6 +52,17 @@ describe("Database Club helper functions work correctly", () => {
       const club = await DBFindClubById("randomstring")
 
       expect(club).toBe(null)
+    })
+  })
+
+  describe("DBFindClubsNearCoordinates works correctly", () => {
+    test("Clubs near coordinates given are returned", async () => {
+      await Club.create(baseTestClub)
+
+      const clubs = await DBFindClubsNearCoordinates(20000, 50.12, 49.88)
+
+      expect(clubs).toHaveLength(1)
+      expect(clubs[0]).toMatchObject(baseTestClub)
     })
   })
 
