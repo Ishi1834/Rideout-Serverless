@@ -24,10 +24,8 @@ const DBFindUpcomingOpenRidesNearCoordinates = async (
   lng,
   lat
 ) => {
-  /* 
   const todaysDate = new Date()
-  add filter for date and sorting
-   */
+
   const rides = await Ride.aggregate([
     {
       $geoNear: {
@@ -40,6 +38,12 @@ const DBFindUpcomingOpenRidesNearCoordinates = async (
         maxDistance: maxDistance,
         spherical: true,
       },
+    },
+    {
+      $match: { date: { $gte: todaysDate }, openRide: true },
+    },
+    {
+      $sort: { date: 1 },
     },
   ])
   return rides

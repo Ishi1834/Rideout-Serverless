@@ -109,7 +109,7 @@ describe("Database Ride helper functions work correctly", () => {
     })
   })
 
-  /* describe("DBFindUpcomingOpenRidesNearCoordinates works correctly", () => {
+  describe("DBFindUpcomingOpenRidesNearCoordinates works correctly", () => {
     test("Upcoming rides near given coordinates are returned", async () => {
       const clubId = new mongoose.Types.ObjectId()
       const dateInFuture = Date.now() + 100000
@@ -126,7 +126,7 @@ describe("Database Ride helper functions work correctly", () => {
       }
       const ride2 = {
         ...baseTestRide,
-        date: dateInFuture,
+        date: dateInFuture + 35000,
         clubId: clubId,
         startLocation: {
           type: "Point",
@@ -151,21 +151,19 @@ describe("Database Ride helper functions work correctly", () => {
       const allRidesInDB = [ride1, ride2, ride3, ride4]
       await Ride.create(allRidesInDB)
 
-      const upcomingRides = await DBFindUpcomingOpenRidesNearCoordinates(
+      const upcomingOpenRides = await DBFindUpcomingOpenRidesNearCoordinates(
         30000,
-        60,
-        40
+        40,
+        60
       )
 
-      console.log(upcomingRides)
-      expect(upcomingRides).toHaveLength(3)
-      upcomingRides.forEach((ride) => {
-        expect(ride.clubId).toEqual(clubId)
+      expect(upcomingOpenRides).toHaveLength(2)
+      upcomingOpenRides.forEach((ride) => {
+        expect(ride.openRide).toBe(true)
         expect(new Date(ride.date).getTime()).toBeGreaterThan(
           new Date().getTime()
         )
-      }) 
+      })
     })
   })
-   */
 })
