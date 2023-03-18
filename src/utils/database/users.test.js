@@ -15,7 +15,7 @@ const baseTestUser = {
   email: "email",
 }
 
-describe("Database User helper function works correctly", () => {
+describe("Database User helper functions works correctly", () => {
   describe("DBCheckUsernameOrEmailIsTaken works correctly", () => {
     test("Returns 'email' if email is duplicate", async () => {
       await User.create(baseTestUser)
@@ -50,7 +50,7 @@ describe("Database User helper function works correctly", () => {
   })
 
   describe("DBCreateUser works correctly", () => {
-    test("user saved to DB successfully", async () => {
+    test("User saved to DB successfully", async () => {
       const savedUser = await DBCreateUser(baseTestUser)
 
       expect(savedUser).toMatchObject(baseTestUser)
@@ -58,7 +58,7 @@ describe("Database User helper function works correctly", () => {
   })
 
   describe("DBFindUser works correctly", () => {
-    test("user is returned if user exists in DB", async () => {
+    test("User is returned if user exists in DB", async () => {
       await User.create(baseTestUser)
 
       const user = await DBFindUser({ username: baseTestUser.username })
@@ -66,7 +66,7 @@ describe("Database User helper function works correctly", () => {
       expect(user).toMatchObject(baseTestUser)
     })
 
-    test("null is returned if user doesn't in DB", async () => {
+    test("Null is returned if user doesn't in DB", async () => {
       const user = await DBFindUser({ username: baseTestUser.username })
 
       expect(user).toBe(null)
@@ -74,7 +74,7 @@ describe("Database User helper function works correctly", () => {
   })
 
   describe("DBFindUserById works correctly", () => {
-    test("user is returned if user exists in DB", async () => {
+    test("User is returned if user exists in DB", async () => {
       const { _id } = await User.create(baseTestUser)
 
       const user = await DBFindUserById(_id.toString())
@@ -82,7 +82,7 @@ describe("Database User helper function works correctly", () => {
       expect(user).toMatchObject(baseTestUser)
     })
 
-    test("null is returned if user doesn't in DB", async () => {
+    test("Null is returned if user doesn't in DB", async () => {
       const user = await DBFindUserById("randomstring")
 
       expect(user).toBe(null)
@@ -103,7 +103,7 @@ describe("Database User helper function works correctly", () => {
       const user = await User.findById(_id)
 
       expect(user).toMatchObject({
-        ...testUser,
+        ...baseTestUser,
         rides: [],
       })
     })
