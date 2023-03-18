@@ -3,6 +3,7 @@ const {
   DBFindRideById,
   DBFindUpcomingRidesByClubId,
   DBFindUpcomingOpenRidesNearCoordinates,
+  DBRemoveUserFromRide,
 } = require("./rides")
 const mongoose = require("mongoose")
 const Ride = require("../../models/Ride")
@@ -163,6 +164,31 @@ describe("Database Ride helper functions work correctly", () => {
         expect(new Date(ride.date).getTime()).toBeGreaterThan(
           new Date().getTime()
         )
+      })
+    })
+  })
+
+  describe("DBRemoveUserFromRide works correctly", () => {
+    test("User is removed from the ride", async () => {
+      await Ride.create({
+        _id: rideId,
+        ...baseTestRide,
+        signedUpCyclists: [
+          {
+            userId: userId,
+            username: "username",
+          },
+        ],
+      })
+
+      await DBRemoveUserFromRide(rideId, userId.toString())
+
+      const ride = await Ride.findById(rideId)
+
+      expect(ride).toMatchObject({
+        _id: rideId,
+        ...baseTestRide,
+        signedUpCyclists: [],
       })
     })
   })
