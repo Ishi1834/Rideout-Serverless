@@ -10,7 +10,7 @@ const DBFindClubById = async (clubId) => {
   return club
 }
 
-const DBFindClubsNearCoordinates = async (maxDistance, lat, lng) => {
+const DBFindClubsNearCoordinates = async (maxDistance, lng, lat) => {
   const clubs = await Club.aggregate([
     {
       $geoNear: {

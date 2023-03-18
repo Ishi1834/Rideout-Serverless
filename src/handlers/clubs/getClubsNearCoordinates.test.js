@@ -93,8 +93,8 @@ describe("GET /clubs", () => {
       // mocks
       expect(clubUtil.DBFindClubsNearCoordinates).toHaveBeenCalledWith(
         30000,
-        50,
-        120
+        120,
+        50
       )
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
@@ -122,8 +122,8 @@ describe("GET /clubs", () => {
       // mocks
       expect(clubUtil.DBFindClubsNearCoordinates).toHaveBeenCalledWith(
         30000,
-        50,
-        120
+        120,
+        50
       )
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
@@ -151,8 +151,8 @@ describe("GET /clubs", () => {
       // mocks
       expect(clubUtil.DBFindClubsNearCoordinates).toHaveBeenCalledWith(
         30000,
-        50,
-        120
+        120,
+        50
       )
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)

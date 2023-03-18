@@ -94,7 +94,7 @@ describe("GET /rides", () => {
       // mocks
       expect(
         rideUtil.DBFindUpcomingOpenRidesNearCoordinates
-      ).toHaveBeenCalledWith(15000, 50, 100)
+      ).toHaveBeenCalledWith(15000, 100, 50)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
@@ -121,7 +121,7 @@ describe("GET /rides", () => {
       // mocks
       expect(
         rideUtil.DBFindUpcomingOpenRidesNearCoordinates
-      ).toHaveBeenCalledWith(15000, 50, 100)
+      ).toHaveBeenCalledWith(15000, 100, 50)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
@@ -148,7 +148,7 @@ describe("GET /rides", () => {
       // mocks
       expect(
         rideUtil.DBFindUpcomingOpenRidesNearCoordinates
-      ).toHaveBeenCalledWith(15000, 50, 100)
+      ).toHaveBeenCalledWith(15000, 100, 50)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(500)

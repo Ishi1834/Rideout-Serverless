@@ -22,8 +22,8 @@ module.exports.handler = async (event, context) => {
 
     const rides = await DBFindUpcomingOpenRidesNearCoordinates(
       parseFloat(maxDistance),
-      parseFloat(lat),
-      parseFloat(lng)
+      parseFloat(lng),
+      parseFloat(lat)
     )
     if (rides.length === 0) {
       return Responses._200({

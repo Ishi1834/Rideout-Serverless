@@ -20,8 +20,8 @@ module.exports.handler = async (event, context) => {
 
     const clubs = await DBFindClubsNearCoordinates(
       parseFloat(maxDistance),
-      parseFloat(lat),
-      parseFloat(lng)
+      parseFloat(lng),
+      parseFloat(lat)
     )
 
     if (clubs.length === 0) {
