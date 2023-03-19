@@ -1,13 +1,12 @@
 const mongoose = require("mongoose")
+const { dbURI } = require("./secretHandler")
 
 let conn = null
-
-const uri = process.env.DATABASE_URI
 
 const connectDatabase = async () => {
   if (conn == null) {
     // create new connection if no connection exists
-    conn = await mongoose.connect(uri, { serverSelectionTimeoutMS: 5000 })
+    conn = await mongoose.connect(dbURI, { serverSelectionTimeoutMS: 5000 })
     return conn
   }
   // return existing connection
