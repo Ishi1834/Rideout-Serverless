@@ -11,6 +11,7 @@ const {
 
 jest.mock("../../utils/database/rides")
 jest.mock("../../utils/database/users")
+jest.mock("../../config/dbConn")
 
 const context = {
   ...contextBase,

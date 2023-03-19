@@ -5,6 +5,7 @@ const userUtil = require("../../utils/database/users")
 const { existingUser } = require("../../../tests/staticData")
 
 jest.mock("../../utils/database/users")
+jest.mock("../../config/dbConn")
 
 const context = {
   callbackWaitsForEmptyEventLoop: true,

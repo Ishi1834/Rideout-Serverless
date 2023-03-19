@@ -11,6 +11,7 @@ const {
 
 jest.mock("../../utils/database/users")
 jest.mock("jsonwebtoken")
+jest.mock("../../config/dbConn")
 
 function TestError(name, message) {
   this.message = message || ""

@@ -14,6 +14,7 @@ const {
 jest.mock("../../utils/database/users")
 jest.mock("bcrypt")
 jest.mock("jsonwebtoken")
+jest.mock("../../config/dbConn")
 
 afterEach(() => {
   jest.resetAllMocks()

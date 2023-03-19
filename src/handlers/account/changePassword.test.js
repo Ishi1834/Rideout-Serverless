@@ -10,6 +10,7 @@ const {
 
 jest.mock("bcrypt")
 jest.mock("../../utils/database/users")
+jest.mock("../../config/dbConn")
 
 const context = {
   ...contextBase,

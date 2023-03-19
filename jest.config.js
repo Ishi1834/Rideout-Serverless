@@ -7,9 +7,5 @@ module.exports = {
   globalTeardown: "./tests/globalTeardown.js",
   setupFilesAfterEnv: ["./tests/setUpFile.js"],
   collectCoverage: true,
-  collectCoverageFrom: [
-    "./src/handlers/**",
-    "./src/middleware/**",
-    "./src/utils/**",
-  ],
+  collectCoverageFrom: ["./src/**"],
 }

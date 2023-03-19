@@ -14,6 +14,7 @@ const { generateVerificationContent } = require("../../utils/emailContent")
 jest.mock("../../utils/database/users")
 jest.mock("jsonwebtoken")
 jest.mock("../../utils/sendEmail")
+jest.mock("../../config/dbConn")
 
 afterEach(() => {
   jest.resetAllMocks()

@@ -9,6 +9,7 @@ const {
 } = require("../../../tests/staticData")
 
 jest.mock("../../utils/database/rides")
+jest.mock("../../config/dbConn")
 
 const context = {
   ...contextBase,

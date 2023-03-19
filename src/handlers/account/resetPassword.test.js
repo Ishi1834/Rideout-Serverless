@@ -12,6 +12,7 @@ jest.mock("../../utils/database/users")
 jest.mock("../../utils/sendEmail")
 jest.mock("generate-password")
 jest.mock("bcrypt")
+jest.mock("../../config/dbConn")
 
 afterEach(() => {
   jest.resetAllMocks()
