@@ -8,15 +8,21 @@ describe("POST /users integration test", () => {
       email: "user@email.com",
       password: "password",
     }
+
     const res = await axios.post("http://localhost:3000/users", body, {
       validateStatus: () => true,
     })
-    console.log("message", res.data)
-    expect(res.status).toEqual(200)
-    expect(res.data).toMatchObject({
+
+    expect(res.status).toEqual(201)
+    expect(res.data.user).toMatchObject({
       name: "name",
       username: "username",
       email: "user@email.com",
+      clubRequests: [],
+      clubs: [],
+      rides: [],
+      emailVerified: false,
+      reportedContent: [],
     })
   })
 })
