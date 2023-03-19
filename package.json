@@ -6,8 +6,7 @@
   "scripts": {
     "test": "jest --testPathPattern=src/ --runInBand",
     "test:integration": "jest /*.integration.test.js --runInBand",
-    "sls:offline": "sls offline start",
-    "test:all": "jest --runInBand"
+    "sls:offline": "sls offline start"
   },
   "keywords": [],
   "author": "",
