@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --testPathPattern=src/ --runInBand",
-    "test:integration": "jest /*.integration.test.js --runInBand",
+    "test:integration": "NODE_ENV=integration jest /*.integration.test.js --runInBand",
     "sls:offline": "sls offline start"
   },
   "keywords": [],
