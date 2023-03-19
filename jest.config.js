@@ -9,8 +9,6 @@ module.exports =
         globalSetup: "./tests/globalSetup.integration.js",
         globalTeardown: "./tests/globalTeardown.integration.js",
         setupFilesAfterEnv: ["./tests/setUpFile.integration.js"],
-        collectCoverage: true,
-        collectCoverageFrom: ["./tests/integration/**"],
       }
     : {
         testEnvironment: "node",
