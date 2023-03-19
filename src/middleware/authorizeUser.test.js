@@ -1,7 +1,7 @@
 const authorizeUser = require("./authorizeUser")
-const eventGenerator = require("../tests/utils/eventGenerator")
-const validators = require("../tests/utils/validators")
-const { context: contextBase, existingUser } = require("../tests/staticData")
+const eventGenerator = require("../../tests/utils/eventGenerator")
+const validators = require("../../tests/utils/validators")
+const { context: contextBase, existingUser } = require("../../tests/staticData")
 
 describe("authorizeUser middleware", () => {
   test("Return 403 if userId from token doesn't match path parameter userId", async () => {

@@ -1,13 +1,13 @@
 const verifyEmailToken = require("./verifyEmailToken")
-const eventGenerator = require("../../tests/utils/eventGenerator")
-const validators = require("../../tests/utils/validators")
+const eventGenerator = require("../../../tests/utils/eventGenerator")
+const validators = require("../../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
 const jwt = require("jsonwebtoken")
 const {
   context,
   existingUser,
   nonExistingUserId,
-} = require("../../tests/staticData")
+} = require("../../../tests/staticData")
 
 jest.mock("../../utils/database/users")
 jest.mock("jsonwebtoken")

@@ -1,13 +1,13 @@
 const deleteAClub = require("./deleteAClub")
-const eventGenerator = require("../../tests/utils/eventGenerator")
-const validators = require("../../tests/utils/validators")
+const eventGenerator = require("../../../tests/utils/eventGenerator")
+const validators = require("../../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
 const clubUtil = require("../../utils/database/clubs")
 const {
   existingClub,
   existingUser,
   context: contextBase,
-} = require("../../tests/staticData")
+} = require("../../../tests/staticData")
 
 jest.mock("../../utils/database/users")
 jest.mock("../../utils/database/clubs")

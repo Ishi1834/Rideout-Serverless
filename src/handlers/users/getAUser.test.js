@@ -1,8 +1,11 @@
 const getAUser = require("./getAUser")
-const eventGenerator = require("../../tests/utils/eventGenerator")
-const validators = require("../../tests/utils/validators")
+const eventGenerator = require("../../../tests/utils/eventGenerator")
+const validators = require("../../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
-const { existingUser, context: contextBase } = require("../../tests/staticData")
+const {
+  existingUser,
+  context: contextBase,
+} = require("../../../tests/staticData")
 
 jest.mock("../../utils/database/users")
 

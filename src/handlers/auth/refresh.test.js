@@ -1,6 +1,6 @@
 const refresh = require("./refresh")
-const eventGenerator = require("../../tests/utils/eventGenerator")
-const validators = require("../../tests/utils/validators")
+const eventGenerator = require("../../../tests/utils/eventGenerator")
+const validators = require("../../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
 const jwt = require("jsonwebtoken")
 const {
@@ -8,7 +8,7 @@ const {
   existingUser,
   existingUserJWTAuthProps,
   existingUserJWTRefreshProps,
-} = require("../../tests/staticData")
+} = require("../../../tests/staticData")
 
 jest.mock("jsonwebtoken")
 jest.mock("../../utils/database/users")

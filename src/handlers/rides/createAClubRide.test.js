@@ -1,6 +1,6 @@
 const createAClubRide = require("./createAClubRide")
-const eventGenerator = require("../../tests/utils/eventGenerator")
-const validators = require("../../tests/utils/validators")
+const eventGenerator = require("../../../tests/utils/eventGenerator")
+const validators = require("../../../tests/utils/validators")
 const clubUtil = require("../../utils/database/clubs")
 const rideUtil = require("../../utils/database/rides")
 const userUtil = require("../../utils/database/users")
@@ -9,7 +9,7 @@ const {
   existingUser,
   existingRide,
   context: contextBase,
-} = require("../../tests/staticData")
+} = require("../../../tests/staticData")
 
 jest.mock("../../utils/database/clubs")
 jest.mock("../../utils/database/users")

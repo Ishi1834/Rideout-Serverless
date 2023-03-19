@@ -1,6 +1,6 @@
 const sendVerificationEmail = require("./sendVerificationEmail")
-const eventGenerator = require("../../tests/utils/eventGenerator")
-const validators = require("../../tests/utils/validators")
+const eventGenerator = require("../../../tests/utils/eventGenerator")
+const validators = require("../../../tests/utils/validators")
 const userUtil = require("../../utils/database/users")
 const jwt = require("jsonwebtoken")
 const sendEmail = require("../../utils/sendEmail")
@@ -8,7 +8,7 @@ const {
   context,
   existingUser,
   nonExistingUserId,
-} = require("../../tests/staticData")
+} = require("../../../tests/staticData")
 const { generateVerificationContent } = require("../../utils/emailContent")
 
 jest.mock("../../utils/database/users")

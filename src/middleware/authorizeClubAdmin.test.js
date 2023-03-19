@@ -1,7 +1,7 @@
 const authorizeClubAdmin = require("./authorizeClubAdmin")
-const eventGenerator = require("../tests/utils/eventGenerator")
-const validators = require("../tests/utils/validators")
-const { context: contextBase, existingClub } = require("../tests/staticData")
+const eventGenerator = require("../../tests/utils/eventGenerator")
+const validators = require("../../tests/utils/validators")
+const { context: contextBase, existingClub } = require("../../tests/staticData")
 
 describe("authorizeClubAdmin middleware", () => {
   describe("Return 403 if user doesn't have correct role", () => {

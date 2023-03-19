@@ -1,7 +1,7 @@
 const authorizeClubUser = require("./authorizeClubUser")
-const eventGenerator = require("../tests/utils/eventGenerator")
-const validators = require("../tests/utils/validators")
-const { context: contextBase, existingClub } = require("../tests/staticData")
+const eventGenerator = require("../../tests/utils/eventGenerator")
+const validators = require("../../tests/utils/validators")
+const { context: contextBase, existingClub } = require("../../tests/staticData")
 
 describe("authorizeClubUser middleware", () => {
   test("Should return 403 if user isn't a club member", async () => {

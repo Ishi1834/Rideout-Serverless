@@ -1,8 +1,8 @@
 const authenticate = require("./authenticate")
-const eventGenerator = require("../tests/utils/eventGenerator")
-const validators = require("../tests/utils/validators")
+const eventGenerator = require("../../tests/utils/eventGenerator")
+const validators = require("../../tests/utils/validators")
 const jwt = require("jsonwebtoken")
-const { context: contextBase, existingUser } = require("../tests/staticData")
+const { context: contextBase, existingUser } = require("../../tests/staticData")
 
 jest.mock("jsonwebtoken")
 
