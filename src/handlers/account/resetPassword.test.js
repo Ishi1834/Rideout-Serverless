@@ -13,11 +13,6 @@ jest.mock("../../utils/sendEmail")
 jest.mock("generate-password")
 jest.mock("bcrypt")
 
-function TestError(name, message) {
-  this.message = message || ""
-  this.name = name
-}
-
 afterEach(() => {
   jest.resetAllMocks()
 })

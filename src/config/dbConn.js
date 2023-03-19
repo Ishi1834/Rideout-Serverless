@@ -4,7 +4,7 @@ let conn = null
 
 const uri = process.env.DATABASE_URI
 
-module.exports = connectDatabase = async () => {
+const connectDatabase = async () => {
   if (process.env.NODE_ENV === "test") {
     return
   }
@@ -16,3 +16,5 @@ module.exports = connectDatabase = async () => {
   // return existing connection
   return conn
 }
+
+module.exports = connectDatabase

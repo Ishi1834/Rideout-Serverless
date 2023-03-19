@@ -85,7 +85,7 @@ describe("POST /account/verification", () => {
         "Confirm your email",
         generateVerificationContent(
           existingUser.name,
-          `https://localhost:3000/account/verification/verificationToken`
+          "https://localhost:3000/account/verification/verificationToken"
         )
       )
       // here
@@ -118,7 +118,7 @@ describe("POST /account/verification", () => {
         "Confirm your email",
         generateVerificationContent(
           existingUser.name,
-          `https://localhost:3000/account/verification/verificationToken`
+          "https://localhost:3000/account/verification/verificationToken"
         )
       )
       // here

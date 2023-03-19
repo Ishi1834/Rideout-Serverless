@@ -3,11 +3,7 @@ const eventGenerator = require("../../tests/utils/eventGenerator")
 const bcrypt = require("bcrypt")
 const userUtil = require("../../utils/database/users")
 const validators = require("../../tests/utils/validators")
-const {
-  context: contextBase,
-  existingUser,
-  nonExistingUserId,
-} = require("../../tests/staticData")
+const { context: contextBase, existingUser } = require("../../tests/staticData")
 
 jest.mock("bcrypt")
 jest.mock("../../utils/database/users")

@@ -12,8 +12,8 @@ const APIGatewayRequest = ({
     headers: headers
       ? { ...headers, host: "localhost:3000" }
       : {
-          host: "localhost:3000",
-        },
+        host: "localhost:3000",
+      },
     multiValueHeaders: {},
     httpMethod: method,
     isBase64Encoded: false,
