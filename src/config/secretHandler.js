@@ -1,4 +1,5 @@
-const isTestEnvironment = process.env.NODE_ENV === "test" && true
+const isTestEnvironment =
+  (process.env.NODE_ENV === "test" || process.env.IS_OFFLINE) && true
 
 const accessTokenSecret = isTestEnvironment
   ? "accessTokenSecret"
@@ -13,8 +14,8 @@ const verificationTokenSecret = isTestEnvironment
   : process.env.VERIFICATION_TOKEN_SECRET
 
 // If integration test is running IS_OFFLINE will be true
-const dbURI = process.env.IS_OFFLINE
-  ? process.env.LOCAL_TEST_DATABASE_URI
+const dbURI = isTestEnvironment
+  ? "mongodb://127.0.0.1:27017"
   : process.env.DATABASE_URI
 
 module.exports = {
