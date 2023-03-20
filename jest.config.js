@@ -20,4 +20,5 @@ module.exports =
         setupFilesAfterEnv: ["./tests/setUpFile.js"],
         collectCoverage: true,
         collectCoverageFrom: ["./src/**"],
+        testPathIgnorePatterns: ["/*.integration.test.js"],
       }
