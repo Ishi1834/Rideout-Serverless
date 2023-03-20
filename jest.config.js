@@ -8,6 +8,7 @@ module.exports =
         clearMocks: true,
         globalSetup: "./tests/globalSetup.integration.js",
         globalTeardown: "./tests/globalTeardown.integration.js",
+        setupFilesAfterEnv: ["./tests/setUpFile.js"],
       }
     : {
         testEnvironment: "node",
