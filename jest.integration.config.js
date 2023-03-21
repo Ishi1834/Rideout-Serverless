@@ -6,4 +6,5 @@ module.exports = {
   globalSetup: "./tests/globalSetup.integration.js",
   globalTeardown: "./tests/globalTeardown.integration.js",
   setupFilesAfterEnv: ["./tests/setUpFile.js"],
+  testPathIgnorePatterns: ["./src/"],
 }

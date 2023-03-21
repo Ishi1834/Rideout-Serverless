@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --config=jest.config.js --runInBand",
-    "test:integration": "jest /*.integration.test.js --config=jest.integration.config.js --runInBand",
+    "test:integration": "jest --config=jest.integration.config.js --runInBand",
     "test:all": "npm test && npm run test:integration",
     "sls:offline": "sls offline start"
   },
