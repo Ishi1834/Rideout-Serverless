@@ -16,10 +16,6 @@ function TestError(name, message) {
   this.name = name
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("authenticate middleware", () => {
   describe("Return 400 if valid auth token isn't given", () => {
     test("Should return 400 and 'unauthorized' if token isn't given", async () => {

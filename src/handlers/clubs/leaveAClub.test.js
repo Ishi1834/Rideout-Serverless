@@ -13,10 +13,6 @@ jest.mock("../../utils/database/clubs")
 jest.mock("../../utils/database/users")
 jest.mock("../../config/dbConn")
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 const context = {
   ...contextBase,
   prev: {

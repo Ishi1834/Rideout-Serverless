@@ -19,10 +19,6 @@ function TestError(name, message) {
   this.name = name
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /auth/refresh", () => {
   describe("Return 400 if missing required fields", () => {
     test("Should return 400 if all required fields are undefined", async () => {

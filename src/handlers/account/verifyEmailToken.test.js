@@ -18,10 +18,6 @@ function TestError(name, message) {
   this.name = name
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("GET /account/verification/:verificationToken", () => {
   describe("Return 401 if request is unauthorized", () => {
     test("Should return 401 if verificationToken is invalid", async () => {

@@ -20,10 +20,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /rides", () => {
   describe("Return 400 if request isn't valid", () => {
     const requiredFields = {

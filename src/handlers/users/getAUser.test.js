@@ -17,10 +17,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("GET /users/{userId}", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if userId has no associated user", async () => {

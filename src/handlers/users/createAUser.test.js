@@ -11,10 +11,6 @@ const context = {
   callbackWaitsForEmptyEventLoop: true,
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /user", () => {
   describe("Return 400 if missing required fields", () => {
     test("Should return 400 if all required fields are undefined", async () => {

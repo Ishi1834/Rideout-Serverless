@@ -18,10 +18,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("GET /rides", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if lat evaluates to false", async () => {

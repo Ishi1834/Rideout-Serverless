@@ -21,10 +21,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("DELETE /clubs/{clubId}", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if clubId has no associated club", async () => {

@@ -20,10 +20,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /account/changePassword", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if all required fields aren't given", async () => {

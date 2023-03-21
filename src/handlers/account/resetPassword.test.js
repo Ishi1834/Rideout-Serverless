@@ -14,10 +14,6 @@ jest.mock("generate-password")
 jest.mock("bcrypt")
 jest.mock("../../config/dbConn")
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /account/passwordReset", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if all required fields are undefined", async () => {

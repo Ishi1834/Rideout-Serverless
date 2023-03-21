@@ -24,10 +24,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /clubs/{clubId}/rides", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if name evaluates to false", async () => {

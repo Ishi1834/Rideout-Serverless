@@ -16,10 +16,6 @@ jest.mock("bcrypt")
 jest.mock("jsonwebtoken")
 jest.mock("../../config/dbConn")
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("POST /auth/login", () => {
   describe("Return 400 if missing required fields", () => {
     test("Should return 400 if all required fields are undefined", async () => {

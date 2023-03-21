@@ -20,10 +20,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("PATCH /rides/{rideId}/join && clubs/{clubId}/rides/{rideId}/join", () => {
   describe("Return 400 if request isn't valid", () => {
     test("Should return 400 if userId has no associated user", async () => {

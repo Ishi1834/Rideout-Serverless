@@ -20,10 +20,6 @@ const context = {
   },
 }
 
-afterEach(() => {
-  jest.resetAllMocks()
-})
-
 describe("GET /clubs/{clubId}/rides", () => {
   describe("Return 200 if request is valid", () => {
     test("Should return 200 and message if club has no rides", async () => {

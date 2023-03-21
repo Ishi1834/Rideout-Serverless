@@ -7,6 +7,7 @@ beforeAll(async () => {
 })
 
 afterEach(async () => {
+  jest.resetAllMocks()
   await mongoose.connection.db.dropDatabase()
 })
 
