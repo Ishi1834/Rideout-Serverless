@@ -176,26 +176,4 @@ describe("PATCH /clubs/{clubId}/join", () => {
       expect(JSON.parse(res.body).message).toBe("Join request sent")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      clubUtil.DBFindClubById.mockImplementation(() => {
-        throw new Error("Error finding club")
-      })
-      const event = eventGenerator({
-        pathParametersObject: {
-          clubId: "validClubId",
-        },
-      })
-
-      const res = await joinAClub.handler(event, context)
-
-      // mock
-      expect(clubUtil.DBFindClubById).toHaveBeenCalledWith("validClubId")
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding club")
-    })
-  })
 })

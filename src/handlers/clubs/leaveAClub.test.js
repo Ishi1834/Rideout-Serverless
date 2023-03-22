@@ -114,26 +114,4 @@ describe("PATCH /clubs/{clubId}/leave", () => {
       expect(JSON.parse(res.body).message).toBe("You have left this club")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      clubUtil.DBFindClubById.mockImplementation(() => {
-        throw new Error("Error finding club")
-      })
-      const event = eventGenerator({
-        pathParametersObject: {
-          clubId: "validClubId",
-        },
-      })
-
-      const res = await leaveAClub.handler(event, context)
-
-      // mock
-      expect(clubUtil.DBFindClubById).toHaveBeenCalledWith("validClubId")
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding club")
-    })
-  })
 })

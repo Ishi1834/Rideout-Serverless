@@ -153,26 +153,4 @@ describe("POST /auth/login", () => {
       })
     })
   })
-
-  describe("Return 500 if there is an error findingUser", () => {
-    test("should reutrn 500 and error message", async () => {
-      userUtil.DBFindUser.mockImplementation(() => {
-        throw new Error("Error getting user")
-      })
-
-      const event = eventGenerator({
-        body: {
-          username: "username",
-          password: "password",
-        },
-      })
-
-      const res = await login.handler(event, context)
-
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toEqual("Error getting user")
-    })
-  })
 })

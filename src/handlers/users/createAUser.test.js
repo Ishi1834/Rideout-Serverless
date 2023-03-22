@@ -156,27 +156,4 @@ describe("POST /user", () => {
       expect(JSON.parse(res.body).user).toEqual(existingUser)
     })
   })
-
-  describe("Return 500 if there is an error saving user", () => {
-    test("should return 500 and error message", async () => {
-      userUtil.DBCreateUser.mockImplementation(() => {
-        throw new Error("Error saving user")
-      })
-
-      const event = eventGenerator({
-        body: {
-          name: "name",
-          username: "username",
-          password: "password",
-          email: "email",
-        },
-      })
-
-      const res = await createAUser.handler(event, context)
-
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toEqual("Error saving user")
-    })
-  })
 })

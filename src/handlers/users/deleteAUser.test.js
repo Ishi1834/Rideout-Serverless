@@ -91,28 +91,4 @@ describe("DELETE /users/{userId}", () => {
       expect(JSON.parse(res.body).message).toBe("User deleted")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      userUtil.DBFindUserById.mockImplementation(() => {
-        throw new Error("Error finding user")
-      })
-
-      const event = eventGenerator({
-        body: {},
-        pathParametersObject: {
-          userId: existingUser._id,
-        },
-      })
-
-      const res = await deleteAUser.handler(event, context)
-
-      // mocks
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding user")
-    })
-  })
 })

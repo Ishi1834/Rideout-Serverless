@@ -147,27 +147,4 @@ describe("POST /account/changePassword", () => {
       expect(JSON.parse(res.body).message).toBe("Password changed")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 if there is an error in DBFindUserById", async () => {
-      userUtil.DBFindUserById.mockImplementation(() => {
-        throw new Error("Error getting user")
-      })
-      const event = eventGenerator({
-        body: {
-          password: "password",
-          newPassword: "newPassword",
-        },
-      })
-
-      const res = await changePassword.handler(event, context)
-
-      // mock
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(context.prev.userId)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error getting user")
-    })
-  })
 })

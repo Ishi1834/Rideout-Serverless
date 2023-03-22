@@ -184,30 +184,4 @@ describe("POST /clubs/{clubId}/members", () => {
       expect(JSON.parse(res.body).message).toBe("User added to club")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      userUtil.DBFindUserById.mockImplementation(() => {
-        throw new Error("Error finding user")
-      })
-
-      const event = eventGenerator({
-        body: {
-          userId: existingUser._id,
-        },
-        pathParametersObject: {
-          clubId: "validClubId",
-        },
-      })
-
-      const res = await addAClubMember.handler(event, context)
-
-      // mock
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding user")
-    })
-  })
 })

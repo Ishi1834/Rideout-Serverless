@@ -157,28 +157,4 @@ describe("POST /clubs", () => {
       })
     })
   })
-
-  describe("Return 500 if there is an error creating club", () => {
-    test("Should return 500 and error message", async () => {
-      userUtil.DBFindUserById.mockImplementation(() => {
-        throw new Error("Error finding user")
-      })
-      const event = eventGenerator({
-        body: {
-          name: "Cycling club",
-          location: [60, 60],
-          city: "London",
-        },
-      })
-
-      const res = await createAClub.handler(event, context)
-
-      // mock
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding user")
-    })
-  })
 })

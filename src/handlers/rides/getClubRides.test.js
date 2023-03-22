@@ -66,29 +66,4 @@ describe("GET /clubs/{clubId}/rides", () => {
       expect(JSON.parse(res.body)).toEqual([existingRide])
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      rideUtil.DBFindUpcomingRidesByClubId.mockImplementation(() => {
-        throw new Error("Error finding rides")
-      })
-
-      const event = eventGenerator({
-        pathParametersObject: {
-          clubId: existingClub._id,
-        },
-      })
-
-      const res = await getClubRides.handler(event, context)
-
-      // mock
-      expect(rideUtil.DBFindUpcomingRidesByClubId).toHaveBeenCalledWith(
-        existingClub._id
-      )
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding rides")
-    })
-  })
 })

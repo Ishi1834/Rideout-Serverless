@@ -275,29 +275,4 @@ describe("DELETE /clubs/{clubId}/rides/{rideId}", () => {
       expect(JSON.parse(res.body).message).toBe("Ride deleted")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      rideUtil.DBFindRideById.mockImplementation(() => {
-        throw new Error("Error finding ride")
-      })
-
-      const event = eventGenerator({
-        pathParametersObject: {
-          clubId: existingClub._id,
-          rideId: existingRide._id,
-        },
-        body: {},
-      })
-
-      const res = await deleteAClubRide.handler(event, context)
-
-      // mocks
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding ride")
-    })
-  })
 })

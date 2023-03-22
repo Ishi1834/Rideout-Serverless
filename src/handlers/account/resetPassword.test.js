@@ -102,28 +102,4 @@ describe("POST /account/passwordReset", () => {
       expect(JSON.parse(res.body).message).toBe("Email sent")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and there is an error finding user", async () => {
-      userUtil.DBFindUser.mockImplementation(() => {
-        throw new Error("Error getting user")
-      })
-
-      const event = eventGenerator({
-        body: {
-          username: existingUser.username,
-        },
-      })
-
-      const res = await resetPassword.handler(event, context)
-      // mock
-      expect(userUtil.DBFindUser).toHaveBeenCalledWith({
-        username: existingUser.username,
-      })
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error getting user")
-    })
-  })
 })

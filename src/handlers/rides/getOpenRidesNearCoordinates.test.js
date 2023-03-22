@@ -125,31 +125,4 @@ describe("GET /rides", () => {
       expect(JSON.parse(res.body)).toEqual([existingRide])
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      rideUtil.DBFindUpcomingOpenRidesNearCoordinates.mockImplementation(() => {
-        throw new Error("Error finding rides")
-      })
-
-      const event = eventGenerator({
-        queryStringObject: {
-          maxDistance: "15000",
-          lat: "50",
-          lng: "100",
-        },
-      })
-
-      const res = await getOpenRidesNearCoordinates.handler(event, context)
-
-      // mocks
-      expect(
-        rideUtil.DBFindUpcomingOpenRidesNearCoordinates
-      ).toHaveBeenCalledWith(15000, 100, 50)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding rides")
-    })
-  })
 })

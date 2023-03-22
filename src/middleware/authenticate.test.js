@@ -11,11 +11,6 @@ const context = {
   end: jest.fn(),
 }
 
-function TestError(name, message) {
-  this.message = message || ""
-  this.name = name
-}
-
 describe("authenticate middleware", () => {
   describe("Return 400 if valid auth token isn't given", () => {
     test("Should return 400 and 'unauthorized' if token isn't given", async () => {
@@ -47,29 +42,6 @@ describe("authenticate middleware", () => {
       expect(res.statusCode).toBe(400)
       expect(JSON.parse(res.body).message).toBe("unauthorized")
     })
-
-    test("Should return 400 and 'unauthorized' if token given isn't valid", async () => {
-      jwt.verify.mockImplementation(() => {
-        throw new TestError("JsonWebTokenError")
-      })
-      const event = eventGenerator({
-        headers: {
-          authorization: "Bearer invalidToken",
-        },
-      })
-
-      const res = await authenticate.handler(event, context)
-      // mock
-      expect(jwt.verify).toHaveBeenCalledWith(
-        "invalidToken",
-        "accessTokenSecret"
-      )
-      expect(context.end).toHaveBeenCalledTimes(1)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(401)
-      expect(JSON.parse(res.body).message).toBe("Invalid authToken")
-    })
   })
 
   describe("Return userId and userClubs if valid authToken is given", () => {
@@ -98,31 +70,6 @@ describe("authenticate middleware", () => {
         userId: existingUser._id,
         userClubs: existingUser.clubs,
       })
-    })
-  })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message if there is an error", async () => {
-      jwt.verify.mockImplementation(() => {
-        throw new Error("Error decoding token")
-      })
-      const event = eventGenerator({
-        headers: {
-          authorization: "Bearer validAuthToken",
-        },
-      })
-
-      const res = await authenticate.handler(event, context)
-      // mock
-      expect(jwt.verify).toHaveBeenCalledWith(
-        "validAuthToken",
-        "accessTokenSecret"
-      )
-      expect(context.end).toHaveBeenCalledTimes(1)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error decoding token")
     })
   })
 })

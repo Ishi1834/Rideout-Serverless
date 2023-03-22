@@ -16,6 +16,9 @@ provider:
 functions:
   # users
   createAUser:
+    middleware:
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/users/createAUser.handler
     events:
       - httpApi:
@@ -25,6 +28,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/users/getAUser.handler
     events:
       - httpApi:
@@ -35,6 +40,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeUser.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/users/deleteAUser.handler
     events:
       - httpApi:
@@ -42,12 +49,18 @@ functions:
           method: DELETE
   # auth
   login:
+    middleware:
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/auth/login.handler
     events:
       - httpApi:
           path: /auth/login
           method: POST
   refresh:
+    middleware:
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/auth/refresh.handler
     events:
       - httpApi:
@@ -55,18 +68,27 @@ functions:
           method: POST
   # account
   sendVerificationEmail:
+    middleware:
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/account/sendVerificationEmail.handler
     events:
       - httpApi:
           path: /account/verification
           method: POST
   verifyEmailToken:
+    middleware:
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/account/verifyEmailToken.handler
     events:
       - httpApi:
           path: /account/verification/{verificationToken}
           method: GET
   resetPassword:
+    middleware:
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/account/resetPassword.handler
     events:
       - httpApi:
@@ -76,6 +98,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/account/changePassword.handler
     events:
       - httpApi:
@@ -86,6 +110,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/getClubsNearCoordinates.handler
     events:
       - httpApi:
@@ -95,6 +121,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/createAClub.handler
     events:
       - httpApi:
@@ -104,6 +132,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/getAClub.handler
     events:
       - httpApi:
@@ -114,6 +144,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/updateAClub.handler
     events:
       - httpApi:
@@ -124,6 +156,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/deleteAClub.handler
     events:
       - httpApi:
@@ -134,6 +168,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/joinAClub.handler
     events:
       - httpApi:
@@ -144,6 +180,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubUser.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/leaveAClub.handler
     events:
       - httpApi:
@@ -155,6 +193,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/addAClubMember.handler
     events:
       - httpApi:
@@ -165,6 +205,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/changeAClubMemberRole.handler
     events:
       - httpApi:
@@ -175,6 +217,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubAdmin.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/clubs/removeAClubMember.handler
     events:
       - httpApi:
@@ -186,6 +230,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubUser.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/getClubRides.handler
     events:
       - httpApi:
@@ -196,6 +242,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubEditor.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/createAClubRide.handler
     events:
       - httpApi:
@@ -206,6 +254,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubEditor.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/updateAClubRide.handler
     events:
       - httpApi:
@@ -216,6 +266,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubEditor.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/deleteAClubRide.handler
     events:
       - httpApi:
@@ -227,6 +279,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubUser.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/joinARide.handler
     events:
       - httpApi:
@@ -238,6 +292,8 @@ functions:
       pre:
         - src/middleware/authenticate.handler
         - src/middleware/authorizeClubUser.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/leaveARide.handler
     events:
       - httpApi:
@@ -248,6 +304,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/getOpenRidesNearCoordinates.handler
     events:
       - httpApi:
@@ -257,6 +315,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/createAnOpenRide.handler
     events:
       - httpApi:
@@ -266,6 +326,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/updateAnOpenRide.handler
     events:
       - httpApi:
@@ -275,6 +337,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/deleteAnOpenRide.handler
     events:
       - httpApi:
@@ -285,6 +349,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/joinARide.handler
     events:
       - httpApi:
@@ -295,6 +361,8 @@ functions:
     middleware:
       pre:
         - src/middleware/authenticate.handler
+      pos:
+        - catch: src/middleware/handleError.handler
     handler: src/handlers/rides/leaveARide.handler
     events:
       - httpApi:

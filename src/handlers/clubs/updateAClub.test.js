@@ -224,30 +224,4 @@ describe("PATCH /clubs/{clubId}", () => {
       })
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      clubUtil.DBFindClubById.mockImplementation(() => {
-        throw new Error("Error finding club")
-      })
-      const event = eventGenerator({
-        pathParametersObject: {
-          clubId: "validClubId",
-        },
-        body: {
-          location: [50, 50],
-          tags: ["cycling"],
-        },
-      })
-
-      const res = await updateAClub.handler(event, context)
-
-      // mocks
-      expect(clubUtil.DBFindClubById).toHaveBeenCalledWith("validClubId")
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding club")
-    })
-  })
 })

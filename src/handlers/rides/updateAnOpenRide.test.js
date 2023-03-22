@@ -244,30 +244,4 @@ describe("PATCH /rides/{rideId}", () => {
       })
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      rideUtil.DBFindRideById.mockImplementation(() => {
-        throw new Error("Error finding ride")
-      })
-
-      const event = eventGenerator({
-        pathParametersObject: {
-          rideId: existingRide._id,
-        },
-        body: {
-          startLocation: [50, 50],
-        },
-      })
-
-      const res = await updateAnOpenRide.handler(event, context)
-
-      // mock
-      expect(rideUtil.DBFindRideById).toHaveBeenCalledWith(existingRide._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding ride")
-    })
-  })
 })

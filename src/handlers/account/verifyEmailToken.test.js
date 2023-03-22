@@ -13,36 +13,8 @@ jest.mock("../../utils/database/users")
 jest.mock("jsonwebtoken")
 jest.mock("../../config/dbConn")
 
-function TestError(name, message) {
-  this.message = message || ""
-  this.name = name
-}
-
 describe("GET /account/verification/:verificationToken", () => {
   describe("Return 401 if request is unauthorized", () => {
-    test("Should return 401 if verificationToken is invalid", async () => {
-      jwt.verify.mockImplementation(() => {
-        throw new TestError("JsonWebTokenError")
-      })
-      const event = eventGenerator({
-        pathParametersObject: {
-          verificationToken: "invalidRefreshToken",
-        },
-      })
-
-      const res = await verifyEmailToken.handler(event, context)
-
-      // mock
-      expect(jwt.verify).toHaveBeenCalledWith(
-        "invalidRefreshToken",
-        "verificationTokenSecret"
-      )
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(401)
-      expect(JSON.parse(res.body).message).toBe("Invalid verificationToken")
-    })
-
     test("Should return 401 if user for verificationToken no longer exists", async () => {
       jwt.verify.mockImplementation(() => {
         return {
@@ -137,44 +109,6 @@ describe("GET /account/verification/:verificationToken", () => {
       expect(validators.isApiGatewayResponse(res)).toBe(true)
       expect(res.statusCode).toBe(200)
       expect(JSON.parse(res.body).message).toBe("Email verified")
-    })
-  })
-
-  describe("Return 500 if there is an error with database", () => {
-    test("Should return 500 if there is an error saving user", async () => {
-      const testUser = {
-        ...existingUser,
-        emailVerified: false,
-        save: jest.fn(),
-      }
-      jwt.verify.mockImplementation(() => {
-        return {
-          userId: existingUser._id,
-        }
-      })
-      userUtil.DBFindUserById.mockImplementation(() => testUser)
-      testUser.save.mockImplementation(() => {
-        throw new Error("Error saving changes")
-      })
-
-      const event = eventGenerator({
-        pathParametersObject: {
-          verificationToken: "validRefreshToken",
-        },
-      })
-
-      const res = await verifyEmailToken.handler(event, context)
-
-      // mock
-      expect(jwt.verify).toHaveBeenCalledWith(
-        "validRefreshToken",
-        "verificationTokenSecret"
-      )
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error saving changes")
     })
   })
 })

@@ -164,30 +164,4 @@ describe("DELETE /clubs/{clubId}/members", () => {
       expect(JSON.parse(res.body).message).toBe("User removed from club")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      userUtil.DBFindUserById.mockImplementation(() => {
-        throw new Error("Error finding user")
-      })
-
-      const event = eventGenerator({
-        body: {
-          userId: existingUser._id,
-        },
-        pathParametersObject: {
-          clubId: existingClub._id,
-        },
-      })
-
-      const res = await removeAClubMember.handler(event, context)
-
-      // mocks
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding user")
-    })
-  })
 })

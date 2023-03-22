@@ -201,28 +201,4 @@ describe("PATCH /rides/{rideId}/leave && /clubs/{clubId}/rides/{rideId}/leave", 
       expect(JSON.parse(res.body).message).toBe("You have left this ride")
     })
   })
-
-  describe("Return 500 if there is an error", () => {
-    test("Should return 500 and error message", async () => {
-      userUtil.DBFindUserById.mockImplementation(() => {
-        throw new Error("Error finding user")
-      })
-
-      const event = eventGenerator({
-        pathParametersObject: {
-          rideId: existingRide._id,
-        },
-        body: {},
-      })
-
-      const res = await leaveARide.handler(event, context)
-
-      // mocks
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(existingUser._id)
-      // response
-      expect(validators.isApiGatewayResponse(res)).toBe(true)
-      expect(res.statusCode).toBe(500)
-      expect(JSON.parse(res.body).error).toBe("Error finding user")
-    })
-  })
 })
