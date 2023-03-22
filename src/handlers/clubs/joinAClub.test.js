@@ -133,7 +133,7 @@ describe("PATCH /clubs/{clubId}/join", () => {
       }
       const testUser = {
         ...existingUser,
-        clubsRequests: [],
+        clubRequests: [],
         save: jest.fn(),
       }
       clubUtil.DBFindClubById.mockImplementation(() => testClub)
@@ -161,7 +161,7 @@ describe("PATCH /clubs/{clubId}/join", () => {
       })
       expect(testUser).toMatchObject({
         ...existingUser,
-        clubsRequests: [
+        clubRequests: [
           {
             name: testClub.name,
             clubId: testClub._id,

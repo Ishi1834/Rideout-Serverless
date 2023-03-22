@@ -38,7 +38,7 @@ module.exports.handler = async (event, context) => {
     username: user.username,
     userId: user._id,
   })
-  user.clubsRequests.push({
+  user.clubRequests.push({
     name: club.name,
     clubId: club._id,
   })

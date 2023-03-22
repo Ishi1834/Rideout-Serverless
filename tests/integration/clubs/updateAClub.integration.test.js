@@ -1,7 +1,7 @@
 const axios = require("axios")
 const dbHelper = require("../../utils/dbHelper")
 
-describe("Update /clubs/{clubId} integration test", () => {
+describe("PATCH /clubs/{clubId} integration test", () => {
   test("User can update a club if they have role 'admin'", async () => {
     const userObject = {
       username: "username",
