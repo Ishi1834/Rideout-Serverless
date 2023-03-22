@@ -1,4 +1,5 @@
 const User = require("../../src/models/User")
+const Club = require("../../src/models/Club")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -9,6 +10,11 @@ const addUserToDB = async (userObject) => {
     password: hashedPwd,
   })
   return user
+}
+
+const addClubToDB = async (clubObject) => {
+  const club = await Club.create(clubObject)
+  return club
 }
 
 const generateTokens = (user) => {
@@ -39,6 +45,22 @@ const getValidUserTokens = async (userObject) => {
   return tokens
 }
 
+const getValidUserTokenWithClub = async (userObject, clubObject) => {
+  const user = await addUserToDB(userObject)
+  const club = await addClubToDB({
+    ...clubObject,
+    members: [
+      { username: user.username, userId: user._id, authorization: "admin" },
+    ],
+  })
+  const userWithClub = await getUser(user._id)
+  const tokens = generateTokens(userWithClub)
+  return {
+    ...tokens,
+    clubId: club._id,
+  }
+}
+
 const getUser = async (userId) => {
   const user = await User.findById(userId)
   return user
@@ -46,6 +68,8 @@ const getUser = async (userId) => {
 
 module.exports = {
   addUserToDB,
+  addClubToDB,
   getValidUserTokens,
+  getValidUserTokenWithClub,
   getUser,
 }
