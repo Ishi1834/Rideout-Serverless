@@ -39,7 +39,13 @@ const getValidUserTokens = async (userObject) => {
   return tokens
 }
 
+const getUser = async (userId) => {
+  const user = await User.findById(userId)
+  return user
+}
+
 module.exports = {
   addUserToDB,
   getValidUserTokens,
+  getUser,
 }
