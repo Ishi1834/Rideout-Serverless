@@ -1,5 +1,6 @@
 const User = require("../../src/models/User")
 const Club = require("../../src/models/Club")
+const Ride = require("../../src/models/Ride")
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -15,6 +16,11 @@ const addUserToDB = async (userObject) => {
 const addClubToDB = async (clubObject) => {
   const club = await Club.create(clubObject)
   return club
+}
+
+const addRideToDB = async (rideObject) => {
+  const ride = await Ride.create(rideObject)
+  return ride
 }
 
 const generateTokens = (user) => {
@@ -80,6 +86,7 @@ const getClub = async (clubId) => {
 module.exports = {
   addUserToDB,
   addClubToDB,
+  addRideToDB,
   getValidUserTokens,
   getValidUserTokenWithClub,
   getUser,
