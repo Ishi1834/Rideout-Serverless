@@ -4,6 +4,7 @@ jspm_packages
 
 # Serverless directories
 .serverless
+.middleware
 
 .DS_Store
 .env
