@@ -2,7 +2,7 @@ const axios = require("axios")
 const dbHelper = require("../../utils/dbHelper")
 
 describe("POST /clubs/{clubId}/rides integration test", () => {
-  test("User can create a club if they are 'admin'", async () => {
+  test("User can create a club ride if they are 'admin'", async () => {
     const userObject = {
       username: "username",
       email: "user@email.com",
@@ -55,6 +55,8 @@ describe("POST /clubs/{clubId}/rides integration test", () => {
         type: "Point",
         coordinates: [40, 60],
       },
+      clubId: clubId.toString(),
+      openRide: false,
       rideType: "Social",
       distance: 40,
       speed: 25,
