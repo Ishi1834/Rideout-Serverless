@@ -53,6 +53,11 @@ const getValidUserTokenWithClub = async (userObject, clubObject) => {
       { username: user.username, userId: user._id, authorization: "admin" },
     ],
   })
+  user.clubs.push({
+    authorization: "admin",
+    clubId: club._id,
+  })
+  await user.save()
   const userWithClub = await getUser(user._id)
   const tokens = generateTokens(userWithClub)
   return {
@@ -66,10 +71,16 @@ const getUser = async (userId) => {
   return user
 }
 
+const getClub = async (clubId) => {
+  const club = await Club.findById(clubId)
+  return club
+}
+
 module.exports = {
   addUserToDB,
   addClubToDB,
   getValidUserTokens,
   getValidUserTokenWithClub,
   getUser,
+  getClub,
 }
