@@ -32,6 +32,7 @@ describe("POST /clubs/{clubId}/members integration test", () => {
           userId: userToBeAddedToClub._id,
         },
       ],
+      members: [],
     }
     const { authToken, clubId } = await dbHelper.getValidUserTokenWithClub(
       userObject,

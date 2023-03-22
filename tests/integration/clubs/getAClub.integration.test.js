@@ -16,6 +16,7 @@ describe("GET /clubs/{clubId} integration test", () => {
         coordinates: [50, 50],
       },
       city: "London",
+      members: [],
     }
     const { authToken, clubId } = await dbHelper.getValidUserTokenWithClub(
       userObject,

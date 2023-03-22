@@ -10,6 +10,7 @@ describe("PATCH /clubs/{clubId}/join integration test", () => {
         coordinates: [50, 50],
       },
       city: "London",
+      members: [],
     }
     const { _id: clubId } = await dbHelper.addClubToDB(clubObject)
     const userObject = {

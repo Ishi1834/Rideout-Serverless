@@ -50,6 +50,7 @@ const getValidUserTokenWithClub = async (userObject, clubObject) => {
   const club = await addClubToDB({
     ...clubObject,
     members: [
+      ...clubObject.members,
       { username: user.username, userId: user._id, authorization: "admin" },
     ],
   })
