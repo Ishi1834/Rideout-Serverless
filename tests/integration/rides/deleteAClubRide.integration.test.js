@@ -2,7 +2,7 @@ const axios = require("axios")
 const dbHelper = require("../../utils/dbHelper")
 const mongoose = require("mongoose")
 
-describe("DELETE /clubs/{clubId}/rides integration test", () => {
+describe("DELETE /clubs/{clubId}/rides/{rideId} integration test", () => {
   test("User can delete a club ride if they are 'admin'", async () => {
     const userId = mongoose.Types.ObjectId()
     const clubId = mongoose.Types.ObjectId()
