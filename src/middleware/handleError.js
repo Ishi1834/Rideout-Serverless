@@ -3,7 +3,7 @@ const logger = require("../utils/logger")
 
 module.exports.handler = async (event, context) => {
   logger(context.prev.errors)
-  const errorMessage = context.prev.messsage
+  const errorMessage = context.prev.message
   context.end()
 
   if (context.prev.name === "JsonWebTokenError") {
