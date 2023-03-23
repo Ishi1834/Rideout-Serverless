@@ -34,7 +34,7 @@ const DBFindUpcomingOpenRidesNearCoordinates = async (
           coordinates: [lng, lat],
         },
         key: "startLocation.coordinates",
-        distanceField: "distanceToClub",
+        distanceField: "distanceToStart",
         maxDistance: maxDistance,
         spherical: true,
       },
