@@ -208,12 +208,14 @@ describe("PATCH /rides/{rideId}", () => {
       rideUtil.DBFindRideById.mockImplementation(() => testRide)
       testRide.save.mockImplementation(() => testRide)
 
+      const newDate = new Date()
       const event = eventGenerator({
         pathParametersObject: {
           rideId: existingRide._id,
         },
         body: {
           rideType: "training",
+          date: newDate,
           distance: "33",
           speed: "17",
           description: "full gas",
@@ -234,6 +236,7 @@ describe("PATCH /rides/{rideId}", () => {
         message: "Ride updated",
         ride: {
           ...existingRide,
+          date: newDate.toISOString(),
           rideType: "training",
           distance: "33",
           speed: "17",

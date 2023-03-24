@@ -243,6 +243,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
       rideUtil.DBFindRideById.mockImplementation(() => testRide)
       testRide.save.mockImplementation(() => testRide)
 
+      const newDate = new Date()
       const event = eventGenerator({
         pathParametersObject: {
           clubId: existingClub._id,
@@ -251,6 +252,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
         body: {
           rideType: "training",
           distance: "33",
+          date: newDate,
           speed: "17",
           description: "full gas",
           cafeStops: "midway cake stop",
@@ -270,6 +272,7 @@ describe("PATCH /clubs/{clubId}/rides/{rideId}", () => {
         message: "Ride updated",
         ride: {
           ...existingRide,
+          date: newDate.toISOString(),
           clubId: existingClub._id,
           rideType: "training",
           distance: "33",

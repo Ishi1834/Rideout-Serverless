@@ -55,6 +55,9 @@ module.exports.handler = async (event, context) => {
   if (startLocation) {
     ride.startLocation.coordinates = startLocation
   }
+  if (date) {
+    ride.date = date
+  }
   if (rideType) {
     ride.rideType = rideType
   }
