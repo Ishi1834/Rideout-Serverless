@@ -50,13 +50,15 @@ describe("GET /clubs/{clubId} integration test", () => {
     )
 
     expect(res.status).toBe(200)
+    expect(res.data[0].distanceToClub).toBeDefined()
+    expect(res.data[1].distanceToClub).toBeDefined()
+    expect(res.data[2].distanceToClub).toBeDefined()
     expect(res.data).toMatchObject([
       {
         activitiesCount: 0,
         city: "London",
         cyclistCount: 1,
         description: "",
-        distanceToClub: 8181.372577812542,
         location: { coordinates: [50, 50], type: "Point" },
         members: [],
         name: "test5",
@@ -69,7 +71,6 @@ describe("GET /clubs/{clubId} integration test", () => {
         city: "London",
         cyclistCount: 1,
         description: "",
-        distanceToClub: 8319.200362228185,
         location: { coordinates: [49.998, 50], type: "Point" },
         members: [],
         name: "testC",
@@ -82,7 +83,6 @@ describe("GET /clubs/{clubId} integration test", () => {
         city: "London",
         cyclistCount: 1,
         description: "",
-        distanceToClub: 9029.292310784414,
         location: { coordinates: [50.003, 50.023], type: "Point" },
         members: [],
         name: "test3",

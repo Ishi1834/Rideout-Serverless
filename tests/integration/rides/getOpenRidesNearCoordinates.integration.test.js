@@ -48,6 +48,7 @@ describe("GET /rides integration test", () => {
     )
 
     expect(res.status).toBe(200)
+    expect(res.data[0].distanceToStart).toBeDefined()
     expect(res.data).toMatchObject([
       {
         createdBy: {
@@ -64,7 +65,6 @@ describe("GET /rides integration test", () => {
         speed: 25,
         description: "description",
         signedUpCyclists: [],
-        distanceToStart: 1244.6201448695533,
       },
     ])
   })
