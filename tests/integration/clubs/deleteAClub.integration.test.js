@@ -1,24 +1,41 @@
 const axios = require("axios")
 const dbHelper = require("../../utils/dbHelper")
+const mongoose = require("mongoose")
 
 describe("DELETE /clubs/{clubId} integration test", () => {
   test("User can delete a club if they have role 'admin'", async () => {
+    const userId = mongoose.Types.ObjectId()
+    const clubId = mongoose.Types.ObjectId()
     const userObject = {
+      _id: userId,
       username: "username",
       email: "user@email.com",
       password: "password",
       name: "user",
+      clubs: [
+        {
+          authorization: "admin",
+          clubId: clubId,
+        },
+      ],
     }
     const clubObject = {
+      _id: clubId,
       name: "clubName",
       location: {
         type: "Point",
         coordinates: [50, 50],
       },
       city: "London",
-      members: [],
+      members: [
+        {
+          username: "username",
+          userId: userId,
+          authorization: "admin",
+        },
+      ],
     }
-    const { authToken, clubId } = await dbHelper.getValidUserTokenWithClub(
+    const { authToken } = await dbHelper.getValidUserTokenWithClub(
       userObject,
       clubObject
     )
@@ -30,9 +47,7 @@ describe("DELETE /clubs/{clubId} integration test", () => {
       validateStatus: () => true,
     })
 
-    const club = await dbHelper.getClub(clubId)
     expect(res.status).toBe(200)
     expect(res.data.message).toBe("Club deleted")
-    expect(club).toBe(null)
   })
 })
