@@ -1,6 +1,6 @@
 module.exports = {
   testEnvironment: "node",
-  verbose: true,
+  verbose: false,
   forceExit: true,
   clearMocks: true,
   globalSetup: "./tests/globalSetup.integration.js",
