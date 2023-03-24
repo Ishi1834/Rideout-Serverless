@@ -7,7 +7,8 @@
     "test": "jest --config=jest.config.js --runInBand",
     "test:integration": "jest --config=jest.integration.config.js --runInBand",
     "test:all": "npm test && npm run test:integration",
-    "sls:offline": "sls offline start"
+    "sls:offline": "sls offline start",
+    "eslint": "eslint ./"
   },
   "keywords": [],
   "author": "",
