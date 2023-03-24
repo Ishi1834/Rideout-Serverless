@@ -30,6 +30,7 @@ const DBFindClubsNearCoordinates = async (maxDistance, lng, lat) => {
 
 const DBRemoveUserFromClub = async (clubId, userId) => {
   const club = await Club.findById(clubId)
+  if (!club) return
   club.members = club.members.filter(
     (memberObject) => memberObject.userId.toString() !== userId
   )

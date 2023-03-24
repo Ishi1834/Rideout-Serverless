@@ -51,6 +51,7 @@ const DBFindUpcomingOpenRidesNearCoordinates = async (
 
 const DBRemoveUserFromRide = async (rideId, userId) => {
   const ride = await Ride.findById(rideId)
+  if (!ride) return
   ride.signedUpCyclists = ride.signedUpCyclists.filter(
     (cyclistObject) => cyclistObject.userId.toString() !== userId
   )

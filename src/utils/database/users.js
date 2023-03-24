@@ -31,7 +31,17 @@ const DBFindUserById = async (userId) => {
 
 const DBRemoveRideFomUser = async (userId, rideId) => {
   const user = await User.findById(userId)
+  if (!user) return
   user.rides = user.rides.filter((id) => id.toString() !== rideId)
+  await user.save()
+}
+
+const DBRemoveClubFromUser = async (userId, clubId) => {
+  const user = await User.findById(userId)
+  if (!user) return
+  user.clubs = user.clubs.filter(
+    (clubObject) => clubObject.clubId.toString() !== clubId
+  )
   await user.save()
 }
 
@@ -41,4 +51,5 @@ module.exports = {
   DBFindUser,
   DBFindUserById,
   DBRemoveRideFomUser,
+  DBRemoveClubFromUser,
 }

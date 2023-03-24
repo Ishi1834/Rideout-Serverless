@@ -52,7 +52,6 @@ describe("DELETE /clubs/{clubId}", () => {
             authorization: "admin",
           },
         ],
-        save: jest.fn(),
       }
       const testClub = {
         ...existingClub,
@@ -67,7 +66,7 @@ describe("DELETE /clubs/{clubId}", () => {
         deleteOne: jest.fn(),
       }
       clubUtil.DBFindClubById.mockImplementation(() => testClub)
-      userUtil.DBFindUserById.mockImplementationOnce(() => testUser)
+      userUtil.DBRemoveClubFromUser.mockImplementationOnce(() => true)
       userUtil.DBFindUserById.mockImplementationOnce(() => null)
       /**
        * Should continue if user returned is null
@@ -82,12 +81,10 @@ describe("DELETE /clubs/{clubId}", () => {
 
       // mocks
       expect(clubUtil.DBFindClubById).toHaveBeenCalledWith(testClub._id)
-      expect(userUtil.DBFindUserById).toHaveBeenCalledWith(testUser._id)
-      expect(testUser.save).toHaveBeenCalledTimes(1)
-      expect(testUser).toMatchObject({
-        ...existingUser,
-        clubs: [],
-      })
+      expect(userUtil.DBRemoveClubFromUser).toHaveBeenCalledWith(
+        testUser._id,
+        testClub._id
+      )
       expect(testClub.deleteOne).toHaveBeenCalledTimes(1)
       // response
       expect(validators.isApiGatewayResponse(res)).toBe(true)
