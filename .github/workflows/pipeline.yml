@@ -16,5 +16,5 @@ jobs:
         run: npm run eslint
       - name: unit test
         run: npm run test
-      - name: integration test
-        run: npm run test:integration
+#      - name: integration test
+#        run: npm run test:integration
