@@ -15,8 +15,8 @@ module.exports.handler = async (event, context) => {
   }
 
   const membersArray = club.members
-  membersArray.forEach((member) => {
-    DBRemoveClubFromUser(member.userId, clubId)
+  membersArray.forEach(async (member) => {
+    await DBRemoveClubFromUser(member.userId, clubId)
   })
 
   await club.deleteOne()
