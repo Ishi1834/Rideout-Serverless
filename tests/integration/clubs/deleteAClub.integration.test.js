@@ -35,10 +35,8 @@ describe("DELETE /clubs/{clubId} integration test", () => {
         },
       ],
     }
-    const { authToken } = await dbHelper.getValidUserTokenWithClub(
-      userObject,
-      clubObject
-    )
+    await dbHelper.addClubToDB(clubObject)
+    const { authToken } = await dbHelper.getValidUserTokens(userObject)
 
     const res = await axios.delete(`http://localhost:3000/clubs/${clubId}`, {
       headers: {

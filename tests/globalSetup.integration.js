@@ -27,7 +27,7 @@ module.exports = async function globalSetup() {
   await mongoose.disconnect()
 
   globalThis.servers = await setupDevServer({
-    command: "sls offline start",
+    command: "sls offline start --verbose",
     launchTimeout: 50000,
     port: 3000,
   })
