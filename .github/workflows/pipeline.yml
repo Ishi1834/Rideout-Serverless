@@ -1,0 +1,20 @@
+name: Testing pipeline
+
+on: [push, pull_request]
+
+jobs:
+  testing_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18.8.0"
+      - name: npm install
+        run: npm install
+      - name: lint
+        run: npm run eslint
+      - name: unit test
+        run: npm run test
+      - name: integration test
+        run: npm run test:integration
