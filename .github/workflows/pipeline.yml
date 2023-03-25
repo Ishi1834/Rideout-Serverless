@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   testing_pipeline:
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -16,5 +16,5 @@ jobs:
         run: npm run eslint
       - name: unit test
         run: npm run test
-#      - name: integration test
-#        run: npm run test:integration
+      - name: integration test
+        run: npm run test:integration
